@@ -252,7 +252,7 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
       <h1>Know what's really happening out there.</h1>
       <p class="lede">Your shelves across a thousand stores, or your robot learning a new task. We put trained people on the ground, check the work, and hand your team clean data you can act on. No guessing, no black box.</p>
       <div class="cta-row">
-        <a class="btn" href="#contact">Tell us your problem</a>
+        <a class="btn" href="#contact">Tell us what you need</a>
         <a class="btn ghost" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call</a>
       </div>
     </div>
@@ -354,8 +354,8 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
 
 <section class="band alt" id="contact">
   <div class="wrap">
-    <h2>Tell us your problem.</h2>
-    <p class="lede" style="margin-top:14px">Describe what you are trying to figure out or collect. You get a reply from Tim, usually the same day.</p>
+    <h2>Tell us what you're after.</h2>
+    <p class="lede" style="margin-top:14px">Describe what you are trying to solve or collect. You get a reply from Tim, usually the same day.</p>
     <form class="cform" id="cform" novalidate>
       <div class="two-in">
         <div><label for="c-name">Your name</label><input id="c-name" name="name" type="text" autocomplete="name"></div>
@@ -371,7 +371,7 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
             <option>Not sure yet</option>
           </select></div>
       </div>
-      <div><label for="c-problem">What are you trying to figure out?</label>
+      <div><label for="c-problem">What are you trying to solve or achieve?</label>
         <textarea id="c-problem" name="problem" rows="5" required placeholder="Example: I need to know if my new end cap is actually set up in 300 stores. Or: I need 200 hours of teleoperation data on a bimanual arm."></textarea></div>
       <input type="text" id="c-hp" name="company_hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <div class="row-btn">
@@ -544,7 +544,7 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
     var ctx=canvas.getContext('2d'); if(!ctx) return;
     var ratio=parseFloat(el.getAttribute('data-ratio'))||1.2;
     var kind=el.getAttribute('data-scene');
-    var scene=(kind==='shelf')?shelfScene():(kind==='aisle')?aisleScene():handScene();
+    var scene=(kind==='aisle')?aisleScene():shelfScene();
     var dpr=Math.min(2,window.devicePixelRatio||1), cssW=0,cssH=0;
     function resize(){
       var r=el.getBoundingClientRect(); cssW=r.width; cssH=cssW/ratio;
@@ -660,7 +660,7 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
       e.preventDefault();
       var payload={name:gv('c-name'),email:gv('c-email'),company:gv('c-company'),kind:gv('c-kind'),problem:gv('c-problem'),company_hp:gv('c-hp')};
       cstatus.className='status';
-      if(!payload.email||!payload.problem){cstatus.className='status err';cstatus.textContent='Add your email and a line about the problem so Tim can reply.';return;}
+      if(!payload.email||!payload.problem){cstatus.className='status err';cstatus.textContent='Add your email and a line on what you need so Tim can reply.';return;}
       var label=csend.textContent; csend.disabled=true; csend.textContent='Sending...'; cstatus.textContent='';
       fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
         .then(function(r){return r.json().catch(function(){return {ok:r.ok};});})
