@@ -244,9 +244,18 @@ footer{border-top:1px solid var(--line);padding-block:30px 40px;display:flex;gap
 footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:var(--ink);font-size:16px;max-width:30ch}
 footer .credit{flex-basis:100%;font-size:12.5px;color:var(--mute);margin-top:8px;padding-top:14px;border-top:1px solid var(--line)}
 footer .credit a{text-decoration:underline}
-.shoptxt{display:flex;flex-direction:column;gap:14px;max-width:62ch}
-.shopvids{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:clamp(24px,3.5vw,38px)}
-@media (max-width:640px){.shopvids{grid-template-columns:1fr 1fr}}
+.fieldrow{display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:clamp(24px,5vw,64px);align-items:center;margin-top:clamp(44px,7vw,96px)}
+.fieldrow:first-of-type{margin-top:clamp(22px,3vw,34px)}
+.fieldrow.rev{grid-template-columns:1fr minmax(0,320px)}
+.fieldrow.rev .fr-media{order:2;justify-self:end}
+.fieldrow.rev .fr-txt{order:1}
+.fr-media{width:100%;max-width:320px}
+.fr-txt h2{max-width:15ch}
+@media (max-width:760px){.fieldrow,.fieldrow.rev{grid-template-columns:1fr;gap:18px}.fieldrow.rev .fr-media{order:0;justify-self:start}.fr-media{max-width:300px}}
+@media (prefers-reduced-motion:no-preference){
+  .fieldrow.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .fieldrow.reveal.in{opacity:1;transform:none}
+}
 .svid{margin:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--scr);line-height:0}
 .svid video{width:100%;aspect-ratio:9/16;object-fit:cover;display:block}
 .capstack{display:flex;flex-direction:column;gap:14px}
@@ -302,14 +311,18 @@ html.cursorfx-on input,html.cursorfx-on textarea,html.cursorfx-on select{cursor:
 
 <section class="band shoppers">
   <div class="wrap">
-    <div class="shoptxt">
-      <span class="eyebrow">In the field</span>
-      <h2>Real people, in real stores.</h2>
+    <span class="eyebrow">In the field</span>
+    <div class="fieldrow">
+      <div class="fr-media"><figure class="svid"><video muted loop playsinline preload="metadata" data-clip poster="media/shopper-1-poster.jpg" aria-label="A shopper choosing fruit at a produce market"><source src="media/shopper-1.mp4" type="video/mp4"></video></figure></div>
+      <div class="fr-txt"><h2>Trained people in every aisle you sell in.</h2></div>
     </div>
-    <div class="shopvids">
-      <figure class="svid"><video muted loop playsinline preload="metadata" data-clip poster="media/shopper-1-poster.jpg" aria-label="A shopper choosing fruit at a produce market"><source src="media/shopper-1.mp4" type="video/mp4"></video></figure>
-      <figure class="svid"><video muted loop playsinline preload="metadata" data-clip poster="media/shopper-2-poster.jpg" aria-label="A shopper browsing produce at a market"><source src="media/shopper-2.mp4" type="video/mp4"></video></figure>
-      <figure class="svid"><video muted loop playsinline preload="metadata" data-clip poster="media/shopper-3-poster.jpg" aria-label="A person photographing a product to catalog it"><source src="media/shopper-3.mp4" type="video/mp4"></video></figure>
+    <div class="fieldrow rev">
+      <div class="fr-media"><figure class="svid"><video muted loop playsinline preload="metadata" data-clip poster="media/shopper-2-poster.jpg" aria-label="A shopper browsing produce at a market"><source src="media/shopper-2.mp4" type="video/mp4"></video></figure></div>
+      <div class="fr-txt"><h2>See your shelf the way your shopper does.</h2></div>
+    </div>
+    <div class="fieldrow">
+      <div class="fr-media"><figure class="svid"><video muted loop playsinline preload="metadata" data-clip poster="media/shopper-3-poster.jpg" aria-label="A person photographing a product to catalog it"><source src="media/shopper-3.mp4" type="video/mp4"></video></figure></div>
+      <div class="fr-txt"><h2>What they see becomes data you can act on.</h2></div>
     </div>
   </div>
 </section>
@@ -877,5 +890,16 @@ html.cursorfx-on input,html.cursorfx-on textarea,html.cursorfx-on select{cursor:
     if(best&&map[best])map[best].classList.add('active');
   },{threshold:[0.12,0.3,0.55],rootMargin:'-64px 0px -42% 0px'});
   ids.forEach(function(id){var el=document.getElementById(id);if(el)io.observe(el);});
+})();
+
+/* ---------- field rows reveal on scroll ---------- */
+(function(){
+  var rows=[].slice.call(document.querySelectorAll('.fieldrow'));
+  if(!rows.length||!('IntersectionObserver' in window)) return;
+  var reduce=false; try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
+  if(reduce) return;
+  rows.forEach(function(r){r.classList.add('reveal');});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.18});
+  rows.forEach(function(r){io.observe(r);});
 })();
 </script>
