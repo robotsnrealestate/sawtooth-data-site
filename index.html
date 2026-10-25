@@ -122,6 +122,7 @@ p{margin:0}
 /* product lane */
 .lane{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(26px,4vw,60px);align-items:center}
 .lane.rev .lane-media{order:-1}
+.lane.solo{grid-template-columns:1fr}
 @media (max-width:860px){.lane{grid-template-columns:1fr}.lane.rev .lane-media{order:0}}
 .lane-txt{display:flex;flex-direction:column;gap:16px;min-width:0}
 .feat{list-style:none;padding:0;margin:4px 0 0;display:flex;flex-direction:column;gap:11px}
@@ -263,7 +264,7 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
 
 <section class="band" id="robotics">
   <div class="wrap">
-    <div class="lane">
+    <div class="lane solo">
       <div class="lane-txt cine">
         <video class="bgv" muted loop playsinline preload="metadata" data-bg poster="media/egocentric-assembly-poster.jpg" aria-hidden="true"><source src="media/egocentric-assembly.mp4" type="video/mp4"></video>
         <div class="lock">
@@ -285,13 +286,6 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
           <div class="stat"><div class="n">21&#8201;pts</div><div class="l">per hand, both hands</div></div>
           <div class="stat"><div class="n">RLDS</div><div class="l">HDF5, COCO, your schema</div></div>
           <div class="stat"><div class="n">QC</div><div class="l">labeled and checked clip by clip</div></div>
-        </div>
-      </div>
-      <div class="lane-media">
-        <div class="inst" data-scene="hand" data-ratio="0.82" data-detail="high">
-          <span class="corner tl"></span><span class="corner br"></span>
-          <span class="tag"><i class="rec"></i>HAND POSE · DEPTH · 3D WORLD</span>
-          <canvas></canvas>
         </div>
       </div>
     </div>
