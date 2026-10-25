@@ -214,8 +214,8 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
       Sawtooth Industries
     </a>
     <nav aria-label="Sections">
-      <a class="link" href="#robotics">Robotic training data</a>
       <a class="link" href="#merchandise">Merchandise data</a>
+      <a class="link" href="#robotics">Teleoperation</a>
       <a class="link" href="#process">How it works</a>
       <a class="link" href="#partners">Partners</a>
       <a class="btn small" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call</a>
@@ -229,11 +229,11 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
   <div class="wrap">
     <div class="stack">
       <span class="eyebrow">Physical Data Intelligence</span>
-      <h1>The real world, captured and structured.</h1>
-      <p class="lede">A global workforce that records how work really gets done and how products really sit on the shelf, then hands it over ready to use. Two data lines, one operation.</p>
+      <h1>Know what's happening on your shelves and in your robots' hands.</h1>
+      <p class="lede">You get a global workforce that walks your stores and runs your robots on real tasks, then hands back data your team can act on the same week.</p>
       <div class="cta-row">
         <a class="btn" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call</a>
-        <a class="btn ghost" href="#robotics">See what we capture</a>
+        <a class="btn ghost" href="#merchandise">See what we capture</a>
       </div>
     </div>
 
@@ -262,30 +262,75 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
   </div>
 </section>
 
+<section class="band alt" id="merchandise">
+  <div class="wrap">
+    <div class="lane rev">
+      <div class="lane-txt">
+        <div class="lock">
+          <span class="eyebrow" style="color:var(--mute)">For brands on the shelf</span>
+          <span class="poweredby" data-logo="datapure">
+            <span class="pre">Powered by</span>
+            <span class="mark"><img src="media/datapure-logo.svg" alt="DataPure"></span>
+          </span>
+        </div>
+        <h2>Is your shelf set up the way you paid for?</h2>
+        <p class="body">You bought the end cap. You should know it is actually there. Someone walks your stores with a phone, scans the shelf, and you get back a score against the standards you set with the retailer, store by store.</p>
+        <ul class="feat">
+          <li>You see your facings scored against your planogram, one by one</li>
+          <li>You see where your product sits and how close the competition is</li>
+          <li>You get photos of your prices and theirs, straight from the aisle</li>
+          <li>You catch a launch that did not land while you can still fix it</li>
+        </ul>
+        <ul class="chips"><li>brands launching a product</li><li>franchise owners</li><li>grocers</li></ul>
+        <div class="cta-row" style="margin-top:4px"><a class="btn" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a store-check call</a></div>
+      </div>
+      <div class="lane-media">
+        <div class="inst" data-scene="shelf" data-ratio="0.74" data-detail="high">
+          <span class="corner tl"></span><span class="corner br"></span>
+          <span class="tag"><i class="rec"></i>PLANOGRAM SCAN · LIVE</span>
+          <canvas></canvas>
+        </div>
+        <div class="scorecard">
+          <ul aria-label="Example display check">
+            <li><span class="mk">&#10003;</span>Facings match the plan</li>
+            <li><span class="mk no">!</span>Product present on the end cap</li>
+            <li><span class="mk">&#10003;</span>Signage is up</li>
+            <li><span class="mk no">!</span>Shelf price matches the file</li>
+            <li><span class="mk">&#10003;</span>Not next to a competitor</li>
+          </ul>
+          <div class="foot"><strong>5 of 7 standards met</strong><span class="note">illustration, not customer data</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="saw" aria-hidden="true"></div></div>
+
 <section class="band" id="robotics">
   <div class="wrap">
     <div class="lane solo">
       <div class="lane-txt cine">
-        <video class="bgv" muted loop playsinline preload="metadata" data-bg poster="media/egocentric-assembly-poster.jpg" aria-hidden="true"><source src="media/egocentric-assembly.mp4" type="video/mp4"></video>
+        <video class="bgv" muted loop playsinline preload="metadata" data-bg poster="media/teleop-humanoid-hand-poster.jpg" aria-hidden="true"><source src="media/teleop-humanoid-hand.mp4" type="video/mp4"></video>
         <div class="lock">
-          <span class="eyebrow" style="color:var(--mute)">Data line 01</span>
+          <span class="eyebrow" style="color:var(--mute)">For robotics teams</span>
           <span class="poweredby" data-logo="fizzion">
             <span class="pre">Powered by</span>
             <span class="mark"><img src="media/fizzion-logo.webp" alt="Fizzion AI"></span>
           </span>
         </div>
-        <h2>Robotic Training Data</h2>
-        <p class="body">Your model learns a physical skill the way a person does, by watching it done. We put trained people on real floors and in real homes and capture the demonstration with the sensors your pipeline needs.</p>
+        <h2>Teleoperation</h2>
+        <p class="body">Your robot needs hours on real tasks before it can run them alone. You get trained operators driving it in live sites, covering whatever it cannot do yet, and every shift turns into data that moves it toward autonomy.</p>
         <ul class="feat">
-          <li>First-person video with a written caption for every step</li>
-          <li>Both hands tracked in 2D, then placed in 3D world coordinates</li>
-          <li>LiDAR depth under every frame, distance labeled per hand</li>
-          <li>Teleoperation episodes with multi-camera views and a success score</li>
+          <li>Your robot runs real work from week one, on whichever brand you deploy</li>
+          <li>Your team gets live-site episodes with multi-camera views and a success score</li>
+          <li>You get each shift back as training data, in the format your pipeline reads</li>
+          <li>Your model needs less help over time, because every episode is labeled and checked</li>
         </ul>
         <div class="stats">
-          <div class="stat"><div class="n">21&#8201;pts</div><div class="l">per hand, both hands</div></div>
           <div class="stat"><div class="n">RLDS</div><div class="l">HDF5, COCO, your schema</div></div>
-          <div class="stat"><div class="n">QC</div><div class="l">labeled and checked clip by clip</div></div>
+          <div class="stat"><div class="n">multi-cam</div><div class="l">views + success score</div></div>
+          <div class="stat"><div class="n">QC</div><div class="l">checked clip by clip</div></div>
         </div>
       </div>
     </div>
@@ -327,49 +372,6 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
 </section>
 
 <div class="wrap"><div class="saw" aria-hidden="true"></div></div>
-
-<section class="band alt" id="merchandise">
-  <div class="wrap">
-    <div class="lane rev">
-      <div class="lane-txt">
-        <div class="lock">
-          <span class="eyebrow" style="color:var(--mute)">Data line 02</span>
-          <span class="poweredby" data-logo="datapure">
-            <span class="pre">Powered by</span>
-            <span class="mark"><img src="media/datapure-logo.svg" alt="DataPure"></span>
-          </span>
-        </div>
-        <h2>Merchandise Data</h2>
-        <p class="body">You bought the end cap. Someone should check it exists. A person walks the store with a phone and scans the shelf, and you get back a score against the standards you agreed with the retailer and the brand.</p>
-        <ul class="feat">
-          <li>Shelf scan scored against your planogram, facing by facing</li>
-          <li>Where your product sits, and how close the competition is</li>
-          <li>Photos of products and shelf prices, yours and theirs</li>
-          <li>Receipts from willing shoppers, so you see what sells next door</li>
-        </ul>
-        <ul class="chips"><li>brands launching a product</li><li>franchise owners</li><li>grocers</li></ul>
-        <div class="cta-row" style="margin-top:4px"><a class="btn" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a store-check call</a></div>
-      </div>
-      <div class="lane-media">
-        <div class="inst" data-scene="shelf" data-ratio="0.74" data-detail="high">
-          <span class="corner tl"></span><span class="corner br"></span>
-          <span class="tag"><i class="rec"></i>PLANOGRAM SCAN · LIVE</span>
-          <canvas></canvas>
-        </div>
-        <div class="scorecard">
-          <ul aria-label="Example display check">
-            <li><span class="mk">&#10003;</span>Facings match the plan</li>
-            <li><span class="mk no">!</span>Product present on the end cap</li>
-            <li><span class="mk">&#10003;</span>Signage is up</li>
-            <li><span class="mk no">!</span>Shelf price matches the file</li>
-            <li><span class="mk">&#10003;</span>Not next to a competitor</li>
-          </ul>
-          <div class="foot"><strong>5 of 7 standards met</strong><span class="note">illustration, not customer data</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section class="band" id="process">
   <div class="wrap">
@@ -434,7 +436,9 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
 <section class="band close cinefull">
   <video class="bgv" muted loop playsinline preload="metadata" data-bg poster="media/teleop-bin-picking-poster.jpg" aria-hidden="true"><source src="media/teleop-bin-picking.mp4" type="video/mp4"></video>
   <div class="wrap stack">
-    <h2>Tell us the task. We tell you if we can collect it.</h2>
+    <span class="eyebrow">For AI training labs</span>
+    <h2>When you need millions of demonstrations, not a demo.</h2>
+    <p class="lede" style="max-width:36ch">You get a global workforce that scales to the hours your model needs, across regions and tasks, delivered in your schema and checked before it reaches you.</p>
     <div class="cta-row"><a class="btn" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call</a></div>
   </div>
 </section>
