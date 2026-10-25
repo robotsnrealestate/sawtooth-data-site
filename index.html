@@ -228,12 +228,12 @@ footer{border-top:1px solid var(--line);padding-block:30px 40px;display:flex;gap
 footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:var(--ink);font-size:16px;max-width:30ch}
 footer .credit{flex-basis:100%;font-size:12.5px;color:var(--mute);margin-top:8px;padding-top:14px;border-top:1px solid var(--line)}
 footer .credit a{text-decoration:underline}
-.shoppers .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(26px,4vw,56px);align-items:center}
-@media (max-width:860px){.shoppers .wrap{grid-template-columns:1fr}}
-.shoptxt{display:flex;flex-direction:column;gap:14px}
-.shopvids{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.shoptxt{display:flex;flex-direction:column;gap:14px;max-width:62ch}
+.shopvids{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:clamp(24px,3.5vw,38px)}
+@media (max-width:640px){.shopvids{grid-template-columns:1fr 1fr}}
 .svid{margin:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--scr);line-height:0}
 .svid video{width:100%;aspect-ratio:9/16;object-fit:cover;display:block}
+.capstack{display:flex;flex-direction:column;gap:14px}
 
 /* contact form */
 .cform{display:flex;flex-direction:column;gap:15px;max-width:640px;margin-top:clamp(22px,3vw,34px)}
@@ -284,13 +284,14 @@ footer .credit a{text-decoration:underline}
 <section class="band shoppers">
   <div class="wrap">
     <div class="shoptxt">
-      <span class="eyebrow">The shopper's side</span>
-      <h2>Someone is always standing at your shelf.</h2>
-      <p class="lede">They decide in seconds. We capture what they see in the aisle, so your shelf is ready before they get there.</p>
+      <span class="eyebrow">In the field</span>
+      <h2>Real people, in real stores.</h2>
+      <p class="lede">Your shoppers, your shelves, your products. We put trained people on the ground, then hand your team what they saw as data you can act on.</p>
     </div>
     <div class="shopvids">
       <figure class="svid"><video muted loop playsinline preload="metadata" data-clip poster="media/shopper-1-poster.jpg" aria-label="A shopper choosing fruit at a produce market"><source src="media/shopper-1.mp4" type="video/mp4"></video></figure>
       <figure class="svid"><video muted loop playsinline preload="metadata" data-clip poster="media/shopper-2-poster.jpg" aria-label="A shopper browsing produce at a market"><source src="media/shopper-2.mp4" type="video/mp4"></video></figure>
+      <figure class="svid"><video muted loop playsinline preload="metadata" data-clip poster="media/shopper-3-poster.jpg" aria-label="A person photographing a product to catalog it"><source src="media/shopper-3.mp4" type="video/mp4"></video></figure>
     </div>
   </div>
 </section>
@@ -317,10 +318,17 @@ footer .credit a{text-decoration:underline}
         <div class="cta-row" style="margin-top:4px"><a class="btn" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a store-check call</a></div>
       </div>
       <div class="lane-media">
-        <div class="inst" data-scene="shelf" data-ratio="0.74" data-detail="high">
-          <span class="corner tl"></span><span class="corner br"></span>
-          <span class="tag"><i class="rec"></i>PLANOGRAM SCAN · LIVE</span>
-          <canvas></canvas>
+        <div class="capstack">
+          <figure class="clip">
+            <div class="frame"><span class="corner tl"></span><span class="corner br"></span>
+              <video muted loop playsinline preload="metadata" data-clip poster="media/merch-capture-1-poster.jpg" aria-label="A shopper scanning a retail display with a phone"><source src="media/merch-capture-1.mp4" type="video/mp4"></video><span class="tc" aria-hidden="true">00:00 / 00:29</span></div>
+            <figcaption>One person, one phone, scanning the shelf in a live store.</figcaption>
+          </figure>
+          <figure class="clip">
+            <div class="frame"><span class="corner tl"></span><span class="corner br"></span>
+              <video muted loop playsinline preload="metadata" data-clip poster="media/merch-capture-2-poster.jpg" aria-label="Capturing a product on a boutique table with a phone"><source src="media/merch-capture-2.mp4" type="video/mp4"></video><span class="tc" aria-hidden="true">00:00 / 00:14</span></div>
+            <figcaption>From grocers to boutiques, the same capture.</figcaption>
+          </figure>
         </div>
       </div>
     </div>
@@ -396,7 +404,7 @@ footer .credit a{text-decoration:underline}
 <section class="band alt" id="contact">
   <div class="wrap">
     <h2>Tell us what you're after.</h2>
-    <p class="lede" style="margin-top:14px">Describe what you are trying to solve or collect. You get a reply from Tim, usually the same day.</p>
+    <p class="lede" style="margin-top:14px">Describe what you are trying to solve or collect, and Tim will get back to you.</p>
     <form class="cform" id="cform" novalidate>
       <div class="two-in">
         <div><label for="c-name">Your name</label><input id="c-name" name="name" type="text" autocomplete="name"></div>
@@ -707,7 +715,7 @@ footer .credit a{text-decoration:underline}
       fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
         .then(function(r){return r.json().catch(function(){return {ok:r.ok};});})
         .then(function(d){
-          if(d&&d.ok){cform.reset();cstatus.className='status ok';cstatus.textContent='Got it. Tim will get back to you, usually the same day.';}
+          if(d&&d.ok){cform.reset();cstatus.className='status ok';cstatus.textContent='Got it. Tim will get back to you.';}
           else{cstatus.className='status err';cstatus.textContent='That did not send. Email tim@fizzion.ai directly, or book a call.';}
         })
         .catch(function(){cstatus.className='status err';cstatus.textContent='Could not send just now. Email tim@fizzion.ai directly, or book a call.';})
