@@ -1,0 +1,630 @@
+<title>Sawtooth Physical Data Intelligence</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Physical Data Intelligence from Sawtooth Industries. Robotic training data powered by Fizzion AI and merchandise shelf data powered by DataPure.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wght@400..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a light reading page that frames dark "capture instrument" panels — live detection canvases
+   for the two product lines. Orange is the data highlight, teal the secondary signal. Left aligned. */
+:root{
+  --paper:#F3F6F7; --paper-2:#E7ECEE; --ink:#0B1620; --mute:#53646F; --line:#C6D1D7;
+  --accent:#FF5A1F; --teal:#0E8C7E; --on-accent:#FFFFFF;
+  /* instrument panel tokens — fixed dark in both themes, like a device screen */
+  --scr:#080D12; --scr-2:#0E1821; --scr-grid:rgba(150,180,200,.09); --scr-line:#7D93A1;
+  --scr-pt:#D4E0E7; --scr-acc:#FF6A2C; --scr-teal:#2FC9B8; --scr-txt:#9FB4C0;
+  --display:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --body:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --data:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0A1118; --paper-2:#101C26; --ink:#E8EFF3; --mute:#9DB0BC; --line:#283b48;
+    --accent:#FF6A2C; --teal:#2FC9B8; --on-accent:#0A1118; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0A1118; --paper-2:#101C26; --ink:#E8EFF3; --mute:#9DB0BC; --line:#283b48;
+  --accent:#FF6A2C; --teal:#2FC9B8; --on-accent:#0A1118; color-scheme:dark;
+}
+*{box-sizing:border-box}
+@media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
+img,video,svg,canvas{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1200px;margin-inline:auto}
+section{scroll-margin-top:72px}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:saturate(1.1) blur(8px);border-bottom:1px solid var(--line);
+  margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px))) calc(-1 * max(16px,env(safe-area-inset-right,0px)));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top .wrap{display:flex;align-items:center;gap:20px;min-height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:800;font-stretch:118%;font-size:15px;white-space:nowrap}
+.brand svg{width:34px;height:16px;flex:none;color:var(--accent)}
+nav{margin-left:auto;display:flex;gap:22px;align-items:center}
+nav a.link{text-decoration:none;font-size:15px;color:var(--mute)}
+nav a.link:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--on-accent);text-decoration:none;font-family:var(--display);font-weight:700;font-stretch:112%;
+  font-size:15px;padding:12px 20px;border-radius:2px;border:2px solid var(--accent);cursor:pointer;line-height:1.2}
+.btn:hover{filter:brightness(1.07)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:currentColor}
+.btn.small{padding:9px 14px;font-size:14px}
+@media (max-width:860px){nav a.link{display:none}}
+
+/* type */
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+h1{font-weight:800;font-stretch:125%;font-size:clamp(2.4rem,7vw,5rem);line-height:1;letter-spacing:-.015em;max-width:13ch}
+h2{font-weight:760;font-stretch:112%;font-size:clamp(1.7rem,4vw,2.8rem);line-height:1.06;letter-spacing:-.006em;max-width:20ch}
+h3{font-weight:700;font-stretch:108%;font-size:1.22rem;line-height:1.2}
+p{margin:0}
+.lede{font-size:clamp(1.08rem,2vw,1.32rem);line-height:1.5;max-width:42ch}
+.body{max-width:54ch}
+.mute{color:var(--mute)}
+.eyebrow{font-family:var(--data);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.band{padding-block:clamp(54px,8vw,104px)}
+.band.alt{background:var(--paper-2);margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px))) calc(-1 * max(16px,env(safe-area-inset-right,0px)));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.stack{display:flex;flex-direction:column;gap:18px}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+.saw{height:9px;background:var(--line);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='9' viewBox='0 0 22 9'%3E%3Cpolyline points='0,9 22,0 22,9' fill='none' stroke='black' stroke-width='1.3'/%3E%3C/svg%3E") repeat-x left bottom/22px 9px;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='9' viewBox='0 0 22 9'%3E%3Cpolyline points='0,9 22,0 22,9' fill='none' stroke='black' stroke-width='1.3'/%3E%3C/svg%3E") repeat-x left bottom/22px 9px}
+
+/* lockup: product line + powered-by wordmark */
+.lock{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.poweredby{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:3px;padding:7px 12px 7px 11px;background:var(--paper)}
+.alt .poweredby{background:var(--paper-2)}
+.poweredby .pre{font-family:var(--data);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.poweredby .mark{display:inline-flex;align-items:center;gap:7px;font-family:var(--display);font-weight:800;font-stretch:110%;font-size:15px}
+.poweredby .mark svg{width:17px;height:17px;flex:none}
+.poweredby img.logo{height:18px;width:auto;display:block}
+.poweredby .mark img{display:block;height:20px;width:auto}
+
+/* instrument panel */
+.inst{position:relative;background:var(--scr);border:1px solid var(--line);border-radius:3px;overflow:hidden;line-height:0}
+.inst canvas{display:block;width:100%;height:auto}
+.inst .tag{position:absolute;left:10px;top:9px;z-index:2;font-family:var(--data);font-size:11px;letter-spacing:.08em;color:var(--scr-txt);
+  display:flex;align-items:center;gap:7px;line-height:1}
+.inst .rec{width:8px;height:8px;border-radius:50%;background:var(--scr-acc)}
+@media (prefers-reduced-motion: no-preference){.inst .rec{animation:blink 1.4s steps(1) infinite}}
+@keyframes blink{50%{opacity:.25}}
+.inst::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+.corner{position:absolute;width:13px;height:13px;border:2px solid var(--scr-acc);z-index:2;pointer-events:none}
+.corner.tl{left:7px;top:7px;border-right:0;border-bottom:0}
+.corner.br{right:7px;bottom:7px;border-left:0;border-top:0}
+
+/* hero */
+.hero{padding-top:clamp(34px,5vw,64px)}
+.hero .stack{gap:20px;max-width:46ch}
+.duo{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;margin-top:clamp(26px,4vw,44px)}
+.spine{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--mute);font-family:var(--data);font-size:11px;letter-spacing:.1em;white-space:nowrap}
+.spine svg{width:26px;height:26px;color:var(--accent)}
+@media (max-width:820px){.duo{grid-template-columns:1fr;gap:12px}.spine{flex-direction:row;justify-content:center}.spine svg{transform:rotate(90deg)}}
+.instlabel{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-top:10px;font-family:var(--data);font-size:12px;color:var(--mute)}
+.instlabel b{font-family:var(--body);font-weight:600;color:var(--ink);font-size:14px}
+
+/* product lane */
+.lane{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(26px,4vw,60px);align-items:center}
+.lane.rev .lane-media{order:-1}
+@media (max-width:860px){.lane{grid-template-columns:1fr}.lane.rev .lane-media{order:0}}
+.lane-txt{display:flex;flex-direction:column;gap:16px;min-width:0}
+.feat{list-style:none;padding:0;margin:4px 0 0;display:flex;flex-direction:column;gap:11px}
+.feat li{padding-left:24px;position:relative;max-width:50ch}
+.feat li::before{content:"";position:absolute;left:0;top:.56em;width:12px;height:2px;background:var(--accent)}
+.stats{display:flex;gap:26px;flex-wrap:wrap;margin-top:6px}
+.stat .n{font-family:var(--display);font-weight:800;font-stretch:115%;font-size:1.7rem;line-height:1;font-variant-numeric:tabular-nums}
+.stat .l{font-size:13px;color:var(--mute);margin-top:4px}
+
+/* sample footage grid */
+.samples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:clamp(26px,4vw,40px)}
+.samples .wide{grid-column:1 / -1}
+@media (max-width:640px){.samples{grid-template-columns:1fr}}
+.clip{margin:0;min-width:0}
+.frame{position:relative;background:var(--scr);border:1px solid var(--line);border-radius:3px;line-height:0;overflow:hidden}
+.frame video{display:block;width:100%;height:auto;background:var(--scr)}
+.frame .tc{position:absolute;right:9px;top:8px;font-family:var(--data);font-size:11px;color:#dfe8ee;background:rgba(8,13,18,.74);padding:4px 6px;z-index:2;line-height:1}
+.frame .corner{width:11px;height:11px}
+.clip figcaption{font-size:13.5px;color:var(--mute);margin-top:9px;line-height:1.4}
+.chips{display:flex;flex-wrap:wrap;gap:7px;padding:0;margin:0;list-style:none}
+.chips li{font-family:var(--data);font-size:12px;border:1px solid var(--line);padding:4px 9px;border-radius:2px;background:var(--paper)}
+.alt .chips li{background:var(--paper-2)}
+.more{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:30px;padding-top:24px;border-top:1px solid var(--line)}
+.more div{display:flex;flex-direction:column;gap:5px}
+@media (max-width:760px){.more{grid-template-columns:1fr}}
+
+/* compliance readout under shelf */
+.scorecard{border:1px solid var(--line);border-radius:3px;background:var(--paper);margin-top:16px;overflow:hidden}
+.alt .scorecard{background:var(--paper-2)}
+.scorecard ul{list-style:none;margin:0;padding:0}
+.scorecard li{display:flex;align-items:center;gap:11px;padding:9px 14px;border-bottom:1px solid var(--line);font-size:14.5px}
+.scorecard li:last-child{border-bottom:0}
+.mk{width:19px;height:19px;flex:none;display:inline-grid;place-items:center;font-family:var(--data);font-size:11px;border:1.5px solid var(--ink);border-radius:2px;line-height:1}
+.mk.no{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.scorecard .foot{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 14px;background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.scorecard .foot strong{font-family:var(--display);font-weight:800;font-stretch:115%;font-size:1.3rem}
+.scorecard .foot .note{font-family:var(--data);font-size:11px;color:var(--mute)}
+
+/* process */
+.steps{list-style:none;padding:0;margin:clamp(28px,4vw,48px) 0 0;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,3vw,34px);position:relative;counter-reset:s}
+.steps::before{content:"";position:absolute;left:0;right:0;top:15px;height:2px;background:var(--line)}
+.steps li{position:relative;padding-top:46px;display:flex;flex-direction:column;gap:7px;counter-increment:s;min-width:0}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:32px;height:32px;display:grid;place-items:center;background:var(--ink);color:var(--paper);font-family:var(--data);font-size:14px;border-radius:2px}
+@media (max-width:820px){.steps{grid-template-columns:1fr;gap:22px}.steps::before{left:15px;top:0;bottom:0;width:2px;height:auto}.steps li{padding-top:0;padding-left:50px}}
+
+/* partners */
+.brief{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,46px);margin-top:clamp(26px,4vw,44px);align-items:start}
+@media (max-width:900px){.brief{grid-template-columns:1fr}}
+form.bf{display:flex;flex-direction:column;gap:15px;min-width:0}
+.bf label,.bf legend{font-weight:600;font-size:14.5px}
+.bf fieldset{border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.bf .opts{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px}
+.bf .opts label{font-weight:400;display:flex;gap:8px;align-items:center}
+.bf input[type=checkbox]{accent-color:var(--accent);width:17px;height:17px;margin:0}
+.bf textarea,.bf input[type=text],.bf input[type=number]{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:2px;padding:10px 12px}
+.bf .two-in{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.out{display:flex;flex-direction:column;gap:12px;min-width:0}
+.out textarea{min-height:250px;font-family:var(--data);font-size:13.5px;line-height:1.5;resize:vertical;width:100%;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:2px;padding:12px}
+.row-btn{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.addr{font-family:var(--data);font-size:15px;user-select:all;border:1px solid var(--line);padding:8px 10px;background:var(--paper);border-radius:2px;overflow-wrap:anywhere}
+.status{font-size:14px;color:var(--mute);min-height:1.2em}
+
+/* cinematic footage behind text */
+.cine{position:relative;overflow:hidden;border-radius:3px;padding:clamp(24px,3.2vw,40px);background:var(--scr);color:#E9EFF3}
+.cine>video.bgv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.24;z-index:0;filter:grayscale(.15) contrast(1.05)}
+.cine::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(8,13,18,.80),rgba(8,13,18,.92))}
+.cine>:not(video){position:relative;z-index:2}
+.cine .body,.cine .feat li{color:#C7D4DC}
+.cine .eyebrow[style]{color:#8FA3B0 !important}
+.cine .stat .l{color:#9FB2BD}
+.cine .btn.ghost{color:#F3F7F9;border-color:#F3F7F9}
+.cine .poweredby{background:#fff;border-color:transparent;color:#0B1620}
+.cinefull{position:relative;overflow:hidden;background:var(--scr);color:#F3F7F9;
+  margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px))) calc(-1*max(16px,env(safe-area-inset-right,0px)));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.cinefull>video.bgv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.28;z-index:0;filter:grayscale(.15)}
+.cinefull::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(8,13,18,.74),rgba(8,13,18,.88))}
+.cinefull .wrap{position:relative;z-index:2}
+.close{padding-block:clamp(60px,9vw,116px)}
+.close h2{max-width:17ch;font-size:clamp(2rem,5vw,3.6rem)}
+footer{border-top:1px solid var(--line);padding-block:30px 40px;display:flex;gap:18px 40px;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;font-size:14.5px;color:var(--mute)}
+footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:var(--ink);font-size:16px;max-width:30ch}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Sawtooth Industries, top">
+      <svg viewBox="0 0 34 16" aria-hidden="true"><polyline points="1,15 12,2 12,15 23,2 23,15 33,5" fill="none" stroke="currentColor" stroke-width="2.3"/></svg>
+      Sawtooth Industries
+    </a>
+    <nav aria-label="Sections">
+      <a class="link" href="#robotics">Robotic training data</a>
+      <a class="link" href="#merchandise">Merchandise data</a>
+      <a class="link" href="#process">How it works</a>
+      <a class="link" href="#partners">Partners</a>
+      <a class="btn small" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div class="stack">
+      <span class="eyebrow">Physical Data Intelligence</span>
+      <h1>The real world, captured and structured.</h1>
+      <p class="lede">A global workforce that records how work really gets done and how products really sit on the shelf, then hands it over ready to use. Two data lines, one operation.</p>
+      <div class="cta-row">
+        <a class="btn" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call</a>
+        <a class="btn ghost" href="#robotics">See what we capture</a>
+      </div>
+    </div>
+
+    <div class="duo">
+      <div>
+        <div class="inst" data-scene="hand" data-ratio="1.25">
+          <span class="corner tl"></span><span class="corner br"></span>
+          <span class="tag"><i class="rec"></i>CAPTURE 01 · MANIPULATION</span>
+          <canvas></canvas>
+        </div>
+        <div class="instlabel"><b>Robotic training data</b><span>hand &amp; depth tracking</span></div>
+      </div>
+      <div class="spine" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h15M13 6l6 6-6 6"/></svg>
+        <span>STRUCTURED</span>
+      </div>
+      <div>
+        <div class="inst" data-scene="shelf" data-ratio="1.25">
+          <span class="corner tl"></span><span class="corner br"></span>
+          <span class="tag"><i class="rec"></i>CAPTURE 02 · SHELF SCAN</span>
+          <canvas></canvas>
+        </div>
+        <div class="instlabel"><b>Merchandise data</b><span>planogram &amp; price</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="robotics">
+  <div class="wrap">
+    <div class="lane">
+      <div class="lane-txt cine">
+        <video class="bgv" muted loop playsinline preload="metadata" data-bg poster="media/egocentric-assembly-poster.jpg" aria-hidden="true"><source src="media/egocentric-assembly.mp4" type="video/mp4"></video>
+        <div class="lock">
+          <span class="eyebrow" style="color:var(--mute)">Data line 01</span>
+          <span class="poweredby" data-logo="fizzion">
+            <span class="pre">Powered by</span>
+            <span class="mark"><img src="media/fizzion-logo.webp" alt="Fizzion AI"></span>
+          </span>
+        </div>
+        <h2>Robotic Training Data</h2>
+        <p class="body">Your model learns a physical skill the way a person does, by watching it done. We put trained people on real floors and in real homes and capture the demonstration with the sensors your pipeline needs.</p>
+        <ul class="feat">
+          <li>First-person video with a written caption for every step</li>
+          <li>Both hands tracked in 2D, then placed in 3D world coordinates</li>
+          <li>LiDAR depth under every frame, distance labeled per hand</li>
+          <li>Teleoperation episodes with multi-camera views and a success score</li>
+        </ul>
+        <div class="stats">
+          <div class="stat"><div class="n">21&#8201;pts</div><div class="l">per hand, both hands</div></div>
+          <div class="stat"><div class="n">RLDS</div><div class="l">HDF5, COCO, your schema</div></div>
+          <div class="stat"><div class="n">QC</div><div class="l">labeled and checked clip by clip</div></div>
+        </div>
+      </div>
+      <div class="lane-media">
+        <div class="inst" data-scene="hand" data-ratio="0.82" data-detail="high">
+          <span class="corner tl"></span><span class="corner br"></span>
+          <span class="tag"><i class="rec"></i>HAND POSE · DEPTH · 3D WORLD</span>
+          <canvas></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="samples">
+      <figure class="clip wide">
+        <div class="frame"><span class="corner tl"></span><span class="corner br"></span>
+          <video muted loop playsinline preload="metadata" poster="media/egocentric-assembly-poster.jpg" data-clip aria-label="Head-mounted video of a worker assembling a transmission housing with step captions"><source src="media/egocentric-assembly.mp4" type="video/mp4"></video><span class="tc" aria-hidden="true">00:00 / 00:24</span></div>
+        <figcaption>Egocentric assembly. Step captions are part of the data.</figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="frame"><span class="corner tl"></span><span class="corner br"></span>
+          <video muted loop playsinline preload="metadata" poster="media/hand-tracking-poster.jpg" data-clip aria-label="Laundry task with 2D hand overlay and a 3D plot of both hands"><source src="media/hand-tracking.mp4" type="video/mp4"></video><span class="tc" aria-hidden="true">00:00 / 00:24</span></div>
+        <figcaption>Hand tracking. 2D overlay plus the same hands in 3D.</figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="frame"><span class="corner tl"></span><span class="corner br"></span>
+          <video muted loop playsinline preload="metadata" poster="media/depth-hand-tracking-poster.jpg" data-clip aria-label="First-person video with a LiDAR depth heat map and labeled hand distances"><source src="media/depth-hand-tracking.mp4" type="video/mp4"></video><span class="tc" aria-hidden="true">00:00 / 00:20</span></div>
+        <figcaption>LiDAR depth, distance labeled per hand.</figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="frame"><span class="corner tl"></span><span class="corner br"></span>
+          <video muted loop playsinline preload="metadata" poster="media/teleop-bin-picking-poster.jpg" data-clip aria-label="Three camera views of a robot arm picking mixed retail items from a bin"><source src="media/teleop-bin-picking.mp4" type="video/mp4"></video><span class="tc" aria-hidden="true">00:00 / 00:24</span></div>
+        <figcaption>Teleoperation, arm. Three views, task prompt, success score.</figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="frame"><span class="corner tl"></span><span class="corner br"></span>
+          <video muted loop playsinline preload="metadata" poster="media/teleop-humanoid-hand-poster.jpg" data-clip aria-label="Three camera views of a dexterous robot hand picking up a box"><source src="media/teleop-humanoid-hand.mp4" type="video/mp4"></video><span class="tc" aria-hidden="true">00:00 / 00:19</span></div>
+        <figcaption>Teleoperation, dexterous hand. Same format, different robot.</figcaption>
+      </figure>
+    </div>
+    <div class="more">
+      <div><h3>Stereo egocentric</h3><p class="mute">Two cameras, so depth is something you compute. Samples with metadata on request.</p></div>
+      <div><h3>Full view</h3><p class="mute">Wider capture of a space or task, for models that need the whole scene.</p></div>
+      <div><h3>Expert labor</h3><p class="mute">Skilled trades on camera, welding and machining, when generic demonstrations will not do.</p></div>
+    </div>
+    <div class="cta-row" style="margin-top:28px"><a class="btn ghost" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Ask for a sample</a></div>
+  </div>
+</section>
+
+<div class="wrap"><div class="saw" aria-hidden="true"></div></div>
+
+<section class="band alt" id="merchandise">
+  <div class="wrap">
+    <div class="lane rev">
+      <div class="lane-txt">
+        <div class="lock">
+          <span class="eyebrow" style="color:var(--mute)">Data line 02</span>
+          <span class="poweredby" data-logo="datapure">
+            <span class="pre">Powered by</span>
+            <span class="mark"><img src="media/datapure-logo.svg" alt="DataPure"></span>
+          </span>
+        </div>
+        <h2>Merchandise Data</h2>
+        <p class="body">You bought the end cap. Someone should check it exists. A person walks the store with a phone and scans the shelf, and you get back a score against the standards you agreed with the retailer and the brand.</p>
+        <ul class="feat">
+          <li>Shelf scan scored against your planogram, facing by facing</li>
+          <li>Where your product sits, and how close the competition is</li>
+          <li>Photos of products and shelf prices, yours and theirs</li>
+          <li>Receipts from willing shoppers, so you see what sells next door</li>
+        </ul>
+        <ul class="chips"><li>brands launching a product</li><li>franchise owners</li><li>grocers</li></ul>
+        <div class="cta-row" style="margin-top:4px"><a class="btn" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a store-check call</a></div>
+      </div>
+      <div class="lane-media">
+        <div class="inst" data-scene="shelf" data-ratio="0.74" data-detail="high">
+          <span class="corner tl"></span><span class="corner br"></span>
+          <span class="tag"><i class="rec"></i>PLANOGRAM SCAN · LIVE</span>
+          <canvas></canvas>
+        </div>
+        <div class="scorecard">
+          <ul aria-label="Example display check">
+            <li><span class="mk">&#10003;</span>Facings match the plan</li>
+            <li><span class="mk no">!</span>Product present on the end cap</li>
+            <li><span class="mk">&#10003;</span>Signage is up</li>
+            <li><span class="mk no">!</span>Shelf price matches the file</li>
+            <li><span class="mk">&#10003;</span>Not next to a competitor</li>
+          </ul>
+          <div class="foot"><strong>5 of 7 standards met</strong><span class="note">illustration, not customer data</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="process">
+  <div class="wrap">
+    <h2>How a project runs</h2>
+    <ol class="steps">
+      <li><h3>You send the spec</h3><p class="mute">Task, place, hours, device, format. A sentence starts it. You get a plan and a quote back.</p></li>
+      <li><h3>We run a pilot</h3><p class="mute">A small batch first, so you check it against your own rules before anything scales.</p></li>
+      <li><h3>We collect</h3><p class="mute">People on the ground capture it. The annotation team labels it.</p></li>
+      <li><h3>You get the data</h3><p class="mute">In the format your pipeline reads, or as a store report your team can act on.</p></li>
+    </ol>
+  </div>
+</section>
+
+<div class="wrap"><div class="saw" aria-hidden="true"></div></div>
+
+<section class="band alt" id="partners">
+  <div class="wrap">
+    <h2>Know someone who needs data?</h2>
+    <p class="lede" style="margin-top:14px">Send them here, or send us the brief. You make the intro, we run the conversation and the collection.</p>
+    <div class="brief">
+      <form class="bf" id="bf" autocomplete="off" onsubmit="return false">
+        <div><label for="f-task">What should be captured?</label>
+          <textarea id="f-task" rows="3" placeholder="Example: people folding laundry at home, first person, two hands visible"></textarea></div>
+        <fieldset><legend>Data type</legend>
+          <div class="opts" id="f-types">
+            <label><input type="checkbox" value="Egocentric"> Egocentric</label>
+            <label><input type="checkbox" value="Stereo egocentric"> Stereo egocentric</label>
+            <label><input type="checkbox" value="Hand tracking"> Hand tracking</label>
+            <label><input type="checkbox" value="Depth"> Depth</label>
+            <label><input type="checkbox" value="Teleoperation"> Teleoperation</label>
+            <label><input type="checkbox" value="Merchandise / shelf"> Merchandise / shelf</label>
+          </div></fieldset>
+        <fieldset><legend>Where</legend>
+          <div class="opts" id="f-where">
+            <label><input type="checkbox" value="United States"> United States</label>
+            <label><input type="checkbox" value="Latin America"> Latin America</label>
+            <label><input type="checkbox" value="India"> India</label>
+            <label><input type="checkbox" value="Other"> Other</label>
+          </div></fieldset>
+        <div class="two-in">
+          <div><label for="f-hours">Hours needed</label><input id="f-hours" type="number" min="0" inputmode="numeric" placeholder="100"></div>
+          <div><label for="f-when">Deadline</label><input id="f-when" type="text" placeholder="End of November"></div>
+        </div>
+        <div><label for="f-fmt">Delivery format</label><input id="f-fmt" type="text" placeholder="HDF5, RLDS, COCO, or a store report"></div>
+        <div><label for="f-who">Who is asking</label><input id="f-who" type="text" placeholder="Name and company"></div>
+      </form>
+      <div class="out">
+        <label for="f-out" style="font-weight:600;font-size:14.5px">Your brief, ready to send</label>
+        <textarea id="f-out" readonly></textarea>
+        <div class="row-btn">
+          <button class="btn" type="button" id="copy-brief">Copy brief</button>
+          <a class="btn ghost" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call instead</a>
+        </div>
+        <p class="status" id="status" role="status"></p>
+        <p>Paste it into an email to:</p>
+        <div class="row-btn"><span class="addr" id="addr">tim@fizzion.ai</span><button class="btn small ghost" type="button" id="copy-addr">Copy address</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band close cinefull">
+  <video class="bgv" muted loop playsinline preload="metadata" data-bg poster="media/teleop-bin-picking-poster.jpg" aria-hidden="true"><source src="media/teleop-bin-picking.mp4" type="video/mp4"></video>
+  <div class="wrap stack">
+    <h2>Tell us the task. We tell you if we can collect it.</h2>
+    <div class="cta-row"><a class="btn" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call</a></div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <div>
+    <p class="tag">Operators to run. Space to build. Data to deliver.</p>
+    <p style="margin-top:8px">Sawtooth Industries</p>
+  </div>
+  <div>
+    <p>Robotic training data powered by Fizzion AI.</p>
+    <p style="margin-top:4px">Merchandise data powered by DataPure.</p>
+    <p style="margin-top:8px">tim@fizzion.ai</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=false; try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
+  var C={scr:'#080D12',grid:'rgba(150,180,200,.09)',line:'#7D93A1',pt:'#D4E0E7',acc:'#FF6A2C',teal:'#2FC9B8',txt:'#9FB4C0'};
+  var MONO='11px "IBM Plex Mono",monospace';
+
+  /* ---------- scene builders ---------- */
+  function handScene(){
+    // 21-pt hand topology, normalized 0..1 within region
+    var base=[[.50,.96],[.37,.84],[.28,.75],[.21,.67],[.15,.60],
+      [.45,.62],[.43,.46],[.42,.35],[.41,.26],
+      [.53,.60],[.53,.43],[.53,.31],[.53,.21],
+      [.61,.62],[.63,.47],[.64,.36],[.65,.28],
+      [.69,.67],[.72,.55],[.74,.46],[.76,.39]];
+    var bones=[[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[0,9],[9,10],[10,11],[11,12],[0,13],[13,14],[14,15],[15,16],[0,17],[17,18],[18,19],[19,20]];
+    var tips=[4,8,12,16,20];
+    // drifting feature points
+    var feats=[]; for(var i=0;i<26;i++) feats.push({x:Math.random(),y:Math.random(),p:Math.random()*6.28,s:.1+Math.random()*.3});
+    return function(ctx,w,h,t){
+      var m=Math.min(w,h), pad=m*0.1;
+      var rx=pad, ry=pad*0.6, rw=w-pad*2, rh=h-pad*1.6;
+      // feature points
+      ctx.fillStyle='rgba(47,201,184,.5)';
+      for(var i=0;i<feats.length;i++){var f=feats[i];var fx=(f.x)*w, fy=(f.y)*h+Math.sin(t*f.s+f.p)*4;ctx.fillRect(fx,fy,1.6,1.6);}
+      // compute hand pts with finger curl
+      var pts=base.map(function(b,idx){
+        var x=rx+b[0]*rw, y=ry+b[1]*rh;
+        // curl: pull non-wrist points slightly, fingertips most
+        var fi=tips.indexOf(idx);
+        var curl=Math.sin(t*0.9)*0.5+0.5; // 0..1
+        var sway=Math.sin(t*0.6+b[0]*4)*m*0.012;
+        if(idx!==0){ y-= (1-b[1])*0; }
+        if(fi>=0){ y+= curl*rh*0.06; x+= Math.sin(t*0.7+fi)*m*0.01; }
+        return [x+sway, y];
+      });
+      // bones
+      ctx.lineWidth=Math.max(1.4,m*0.009); ctx.strokeStyle=C.acc; ctx.lineCap='round';
+      ctx.beginPath();
+      bones.forEach(function(b){ctx.moveTo(pts[b[0]][0],pts[b[0]][1]);ctx.lineTo(pts[b[1]][0],pts[b[1]][1]);});
+      ctx.stroke();
+      // joints
+      for(var j=0;j<pts.length;j++){var r=(j===0?m*0.016:m*0.011);ctx.beginPath();ctx.fillStyle=(tips.indexOf(j)>=0?C.acc:C.pt);ctx.arc(pts[j][0],pts[j][1],r,0,6.283);ctx.fill();if(tips.indexOf(j)>=0){ctx.strokeStyle='rgba(255,106,44,.35)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(pts[j][0],pts[j][1],r+3+Math.sin(t*3)*1.5,0,6.283);ctx.stroke();}}
+      // bbox around hand
+      var xs=pts.map(function(p){return p[0];}),ys=pts.map(function(p){return p[1];});
+      var x0=Math.min.apply(0,xs),x1=Math.max.apply(0,xs),y0=Math.min.apply(0,ys),y1=Math.max.apply(0,ys);
+      var bx=x0-m*0.05,by=y0-m*0.05,bw=(x1-x0)+m*0.1,bh=(y1-y0)+m*0.1;
+      ctx.strokeStyle='rgba(255,106,44,.55)';ctx.lineWidth=1.2;ctx.setLineDash([5,4]);ctx.strokeRect(bx,by,bw,bh);ctx.setLineDash([]);
+      ctx.font=MONO;ctx.fillStyle=C.acc;ctx.textBaseline='alphabetic';
+      ctx.fillText('hand · 0.'+(33+Math.floor((Math.sin(t)*0.5+0.5)*18))+' m',bx,by-6);
+      // depth readout rows bottom-left
+      ctx.fillStyle=C.txt;
+      var rows=['frame '+String(300+Math.floor(t*25)%1365).padStart(4,'0'),'pose 21 pts · 2 hands','depth 0.1–3.6 m'];
+      for(var k=0;k<rows.length;k++){ctx.fillText(rows[k],pad*0.6,h-pad*0.6-(rows.length-1-k)*14);}
+    };
+  }
+
+  function shelfScene(){
+    // shelves with products; one gap; price mismatch flag
+    var rows=[0.30,0.56,0.82];
+    var prod=[]; // {row, x, w, kind}
+    rows.forEach(function(ry,ri){
+      var x=0.06; var rng=(ri*7+3);
+      while(x<0.92){
+        var w=0.05+((rng=(rng*9301+49297)%233280)/233280)*0.05;
+        var gap=(ri===1 && x>0.42 && x<0.58); // leave a gap mid-row-1
+        if(!gap) prod.push({row:ri,x:x,w:w,ri:ri});
+        x+=w+0.012;
+      }
+    });
+    var gapBox={row:1,x:0.44,w:0.14};
+    return function(ctx,w,h,t){
+      var m=Math.min(w,h),pad=m*0.09;
+      var ax=pad,ay=pad*0.9,aw=w-pad*2,ah=h-pad*1.7;
+      // shelf lines
+      ctx.strokeStyle=C.line;ctx.lineWidth=1.4;
+      rows.forEach(function(ry){var y=ay+ry*ah+ah*0.13;ctx.beginPath();ctx.moveTo(ax,y);ctx.lineTo(ax+aw,y);ctx.stroke();});
+      // scan sweep 0..1 loop
+      var sx=(t*0.16)%1.25; var scanX=ax+sx*aw;
+      // products
+      ctx.font=MONO;
+      prod.forEach(function(p){
+        var px=ax+p.x*aw, py=ay+rows[p.row]*ah-ah*0.14, pw=p.w*aw, ph=ah*0.27;
+        var scanned=(px+pw)<=scanX;
+        ctx.strokeStyle=C.line;ctx.lineWidth=1;ctx.strokeRect(px,py,pw,ph);
+        if(scanned){
+          ctx.strokeStyle=C.teal;ctx.lineWidth=1.4;ctx.strokeRect(px+1,py+1,pw-2,ph-2);
+          if(p.w>0.07){ctx.fillStyle='rgba(47,201,184,.9)';ctx.fillText('SKU',px+3,py-3);}
+        }
+      });
+      // gap box flagged (always visible once scan passed it)
+      var gx=ax+gapBox.x*aw, gy=ay+rows[1]*ah-ah*0.14, gw=gapBox.w*aw, gh=ah*0.27;
+      if(scanX>gx){
+        ctx.strokeStyle=C.acc;ctx.lineWidth=1.6;ctx.setLineDash([5,4]);ctx.strokeRect(gx,gy,gw,gh);ctx.setLineDash([]);
+        ctx.fillStyle=C.acc;ctx.fillText('GAP',gx+4,gy+gh*0.6);
+      }
+      // price mismatch tag on a product row 2
+      var mx=ax+0.66*aw, my=ay+rows[2]*ah-ah*0.14;
+      if(scanX>mx){ctx.strokeStyle=C.acc;ctx.setLineDash([4,3]);ctx.lineWidth=1.4;ctx.strokeRect(mx,my-ah*0.02,aw*0.14,ah*0.31);ctx.setLineDash([]);ctx.fillStyle=C.acc;ctx.fillText('$ ≠ plan',mx,my-5);}
+      // scan line
+      if(sx<1){ctx.strokeStyle=C.acc;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(scanX,ay);ctx.lineTo(scanX,ay+ah);ctx.stroke();
+        var g=ctx.createLinearGradient(scanX-30,0,scanX,0);g.addColorStop(0,'rgba(255,106,44,0)');g.addColorStop(1,'rgba(255,106,44,.18)');ctx.fillStyle=g;ctx.fillRect(scanX-30,ay,30,ah);}
+      // readout
+      var done=Math.min(1,sx);
+      ctx.fillStyle=C.txt;
+      ctx.fillText((sx<1?'SCANNING':'COMPLETE')+' · '+Math.round(done*100)+'%',pad*0.6,h-pad*0.6-14);
+      ctx.fillStyle=C.acc;ctx.fillText('1 gap · 1 price flag',pad*0.6,h-pad*0.6);
+    };
+  }
+
+  /* ---------- runner ---------- */
+  function mount(el){
+    var canvas=el.querySelector('canvas'); if(!canvas) return;
+    var ctx=canvas.getContext('2d'); if(!ctx) return;
+    var ratio=parseFloat(el.getAttribute('data-ratio'))||1.2;
+    var kind=el.getAttribute('data-scene');
+    var scene=(kind==='shelf')?shelfScene():handScene();
+    var dpr=Math.min(2,window.devicePixelRatio||1), cssW=0,cssH=0;
+    function resize(){
+      var r=el.getBoundingClientRect(); cssW=r.width; cssH=cssW/ratio;
+      el.style.height=''; canvas.style.height=cssH+'px';
+      canvas.width=Math.round(cssW*dpr); canvas.height=Math.round(cssH*dpr);
+    }
+    function bg(){
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      ctx.fillStyle=C.scr; ctx.fillRect(0,0,cssW,cssH);
+      // grid
+      ctx.strokeStyle=C.grid; ctx.lineWidth=1; var step=Math.max(26,cssW/16);
+      ctx.beginPath();
+      for(var x=step;x<cssW;x+=step){ctx.moveTo(x,0);ctx.lineTo(x,cssH);}
+      for(var y=step;y<cssH;y+=step){ctx.moveTo(0,y);ctx.lineTo(cssW,y);}
+      ctx.stroke();
+    }
+    function frame(ts){ if(stopped) return; bg(); scene(ctx,cssW,cssH,ts/1000); raf=requestAnimationFrame(frame); }
+    var raf=null, stopped=true;
+    function start(){ if(!stopped) return; stopped=false; raf=requestAnimationFrame(frame); }
+    function stop(){ stopped=true; if(raf) cancelAnimationFrame(raf); }
+    try{ new ResizeObserver(function(){resize(); if(stopped){bg();scene(ctx,cssW,cssH,1.2);} }).observe(el); }catch(e){}
+    resize();
+    if(reduce){ bg(); scene(ctx,cssW,cssH,3.0); return; }
+    bg(); scene(ctx,cssW,cssH,0.2);
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){es.forEach(function(e){e.isIntersecting?start():stop();});},{threshold:.12}).observe(el);
+    } else { start(); }
+    document.addEventListener('visibilitychange',function(){document.hidden?stop():start();});
+  }
+  [].forEach.call(document.querySelectorAll('.inst[data-scene]'),mount);
+
+  /* ---------- video timecodes + autoplay ---------- */
+  function fmt(s){s=Math.floor(s||0);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+  var vids=[].slice.call(document.querySelectorAll('video[data-clip]'));
+  vids.forEach(function(v){var tc=v.parentNode.querySelector('.tc');
+    function u(){if(tc)tc.textContent=fmt(v.currentTime)+' / '+fmt(v.duration);}
+    v.addEventListener('timeupdate',u);v.addEventListener('loadedmetadata',u); if(reduce)v.setAttribute('controls','');});
+  if('IntersectionObserver' in window && !reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){});}else v.pause();});},{threshold:.25});
+    vids.forEach(function(v){io.observe(v);});
+  }
+  var bgvs=[].slice.call(document.querySelectorAll('video[data-bg]'));
+  if('IntersectionObserver' in window){
+    var io2=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting&&!reduce){var p=v.play();if(p&&p.catch)p.catch(function(){});}else v.pause();});},{threshold:.05});
+    bgvs.forEach(function(v){io2.observe(v);});
+  }
+
+  /* ---------- partner brief ---------- */
+  var types=document.getElementById('f-types'),where=document.getElementById('f-where'),out=document.getElementById('f-out'),status=document.getElementById('status');
+  function chk(b){return [].slice.call(b.querySelectorAll('input:checked')).map(function(i){return i.value;}).join(', ');}
+  function val(id){var e=document.getElementById(id);return (e&&e.value||'').trim();}
+  function build(){out.value=['Data request','',
+    'Task: '+(val('f-task')||'to be confirmed'),
+    'Data type: '+(chk(types)||'to be confirmed'),
+    'Where: '+(chk(where)||'to be confirmed'),
+    'Hours: '+(val('f-hours')||'to be confirmed'),
+    'Deadline: '+(val('f-when')||'to be confirmed'),
+    'Delivery format: '+(val('f-fmt')||'to be confirmed'),
+    'From: '+(val('f-who')||'to be confirmed')].join('\n');}
+  var bf=document.getElementById('bf'); bf.addEventListener('input',build); bf.addEventListener('change',build); build();
+  function copy(text,el,ok){function fb(){if(el&&el.select){el.focus();el.select();}status.textContent='Select and copy it with your keyboard.';}
+    try{navigator.clipboard.writeText(text).then(function(){status.textContent=ok;},fb);}catch(e){fb();}}
+  document.getElementById('copy-brief').addEventListener('click',function(){copy(out.value,out,'Brief copied.');});
+  document.getElementById('copy-addr').addEventListener('click',function(){var a=document.getElementById('addr');copy(a.textContent,a,'Address copied.');});
+})();
+</script>
