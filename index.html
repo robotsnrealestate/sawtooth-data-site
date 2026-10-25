@@ -243,9 +243,8 @@ button.spec-opt{cursor:pointer;font:inherit;width:100%;text-align:left}
 .wiz-chip.cur{border-color:var(--accent)}
 .wiz-chip.done{border-color:rgba(47,201,184,.55)}
 .wiz-steplabel{font-family:var(--data);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#8FA3B0;margin-bottom:12px}
-.wiz-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 14px}
-@media (max-width:760px){.wiz-opts{grid-template-columns:1fr 1fr}.wiz-chip{min-width:0}}
-@media (max-width:480px){.wiz-opts{grid-template-columns:1fr}}
+.wiz-opts{display:flex;flex-direction:column;gap:10px;max-width:560px}
+@media (max-width:760px){.wiz-chip{min-width:0}}
 .wiz-foot{margin-top:clamp(18px,2.5vw,26px)}
 .wiz-summary{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
 .wiz-summary .sum{color:#C7D4DC;font-size:15px}
