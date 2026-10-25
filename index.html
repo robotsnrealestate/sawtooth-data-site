@@ -238,12 +238,12 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
 
     <div class="duo">
       <div>
-        <div class="inst" data-scene="hand" data-ratio="1.25">
+        <div class="inst" data-scene="aisle" data-ratio="1.25">
           <span class="corner tl"></span><span class="corner br"></span>
-          <span class="tag"><i class="rec"></i>CAPTURE 01 · MANIPULATION</span>
+          <span class="tag"><i class="rec"></i>CAPTURE 01 · AISLE SCAN</span>
           <canvas></canvas>
         </div>
-        <div class="instlabel"><b>Robotic training data</b><span>hand &amp; depth tracking</span></div>
+        <div class="instlabel"><b>In-store aisle</b><span>first-person scan</span></div>
       </div>
       <div class="spine" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h15M13 6l6 6-6 6"/></svg>
@@ -567,13 +567,46 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
     };
   }
 
+  function aisleScene(){
+    var N=6, lanes=[0.66,0.40], items=[];
+    for(var s=-1;s<=1;s+=2){for(var li=0;li<lanes.length;li++){for(var i=0;i<N;i++){items.push({side:s,lane:li,phase:(i/N)+li*0.5/N});}}}
+    return function(ctx,w,h,t){
+      var VPx=w*0.5, VPy=h*0.46, speed=0.05, pad=Math.min(w,h)*0.09;
+      ctx.strokeStyle=C.grid; ctx.lineWidth=1; ctx.beginPath();
+      [[0,h],[w,h],[0,0],[w,0]].forEach(function(c){ctx.moveTo(c[0],c[1]);ctx.lineTo(VPx,VPy);});
+      ctx.stroke();
+      ctx.font=MONO; ctx.textBaseline='alphabetic';
+      var draws=items.map(function(it){return {it:it,tt:((t*speed)+it.phase)%1};}).sort(function(a,b){return a.tt-b.tt;});
+      draws.forEach(function(d){
+        var it=d.it, tt=d.tt, ease=tt*tt;
+        var wallEdge=VPx+it.side*(w*0.52)*ease;
+        var yC=VPy+(lanes[it.lane]*h-VPy)*ease;
+        var scale=0.12+ease*0.9, bw=w*0.11*scale+2, bh=h*0.26*scale+2;
+        var bx=it.side<0?wallEdge:wallEdge-bw, by=yC-bh;
+        ctx.globalAlpha=Math.min(1,tt/0.08);
+        ctx.strokeStyle=C.line; ctx.lineWidth=1; ctx.strokeRect(bx,by,bw,bh);
+        if(tt>0.5){ctx.strokeStyle=C.teal;ctx.lineWidth=1.4;ctx.strokeRect(bx+1,by+1,bw-2,bh-2);
+          if(tt>0.62 && bw>26){ctx.fillStyle='rgba(47,201,184,.9)';ctx.fillText('SKU',bx+3,by-3);}}
+        ctx.globalAlpha=1;
+      });
+      var rx=VPx, ry=h*0.6;
+      ctx.strokeStyle=C.acc; ctx.lineWidth=1.4; ctx.beginPath();
+      ctx.moveTo(rx-15,ry);ctx.lineTo(rx-5,ry);ctx.moveTo(rx+5,ry);ctx.lineTo(rx+15,ry);
+      ctx.moveTo(rx,ry-15);ctx.lineTo(rx,ry-5);ctx.moveTo(rx,ry+5);ctx.lineTo(rx,ry+15);ctx.stroke();
+      var sy=VPy+(h-VPy)*((t*0.3)%1);
+      ctx.strokeStyle='rgba(255,106,44,.5)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,sy);ctx.lineTo(w,sy);ctx.stroke();
+      ctx.fillStyle=C.txt; ctx.fillText('AISLE 7 · SCANNING', pad*0.6, h-pad*0.6-14);
+      ctx.fillStyle=C.acc; ctx.fillText('facings · price check', pad*0.6, h-pad*0.6);
+    };
+  }
+
   /* ---------- runner ---------- */
   function mount(el){
     var canvas=el.querySelector('canvas'); if(!canvas) return;
     var ctx=canvas.getContext('2d'); if(!ctx) return;
     var ratio=parseFloat(el.getAttribute('data-ratio'))||1.2;
     var kind=el.getAttribute('data-scene');
-    var scene=(kind==='shelf')?shelfScene():handScene();
+    var scene=(kind==='shelf')?shelfScene():(kind==='aisle')?aisleScene():handScene();
     var dpr=Math.min(2,window.devicePixelRatio||1), cssW=0,cssH=0;
     function resize(){
       var r=el.getBoundingClientRect(); cssW=r.width; cssH=cssW/ratio;
