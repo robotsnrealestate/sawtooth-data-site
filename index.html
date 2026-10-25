@@ -222,6 +222,22 @@ form.bf{display:flex;flex-direction:column;gap:15px;min-width:0}
 .cineL .stat .l,.cineL .clip figcaption{color:#9FB2BD}
 .cineL .poweredby{background:#fff;border-color:transparent;color:#0B1620}
 .cineL .feature-txt{max-width:56ch}
+/* spec menu (inside robotics dark band) */
+.spec{margin-top:clamp(30px,4vw,48px);padding-top:clamp(26px,3vw,36px);border-top:1px solid rgba(255,255,255,.14)}
+.spec-head{display:flex;flex-direction:column;gap:9px;margin-bottom:clamp(20px,3vw,30px)}
+.spec-title{color:#F3F7F9}
+.spec-sub{color:#C7D4DC;max-width:56ch}
+.spec-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.4vw,28px)}
+@media (max-width:760px){.spec-cols{grid-template-columns:1fr}}
+.spec-k{font-family:var(--data);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#8FA3B0;margin-bottom:10px}
+.spec-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;text-decoration:none;color:#E9EFF3;font-family:var(--display);font-weight:600;font-stretch:105%;font-size:15.5px;padding:11px 14px;border:1px solid rgba(255,255,255,.16);border-radius:3px;margin-bottom:8px;background:rgba(255,255,255,.03);transition:background .15s,border-color .15s,transform .15s}
+.spec-opt::after{content:"\2192";color:var(--accent);opacity:.55;transition:transform .15s,opacity .15s}
+.spec-opt:hover{background:rgba(255,106,44,.16);border-color:var(--accent);transform:translateX(2px)}
+.spec-opt:hover::after{opacity:1;transform:translateX(3px)}
+/* active nav (scroll highlight) */
+nav a.link{position:relative}
+nav a.link.active{color:var(--ink)}
+nav a.link.active::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:2px;background:var(--accent)}
 .close{padding-block:clamp(60px,9vw,116px)}
 .close h2{max-width:17ch;font-size:clamp(2rem,5vw,3.6rem)}
 footer{border-top:1px solid var(--line);padding-block:30px 40px;display:flex;gap:18px 40px;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;font-size:14.5px;color:var(--mute)}
@@ -403,6 +419,41 @@ html.cursorfx-on input,html.cursorfx-on textarea,html.cursorfx-on select{cursor:
           <video muted loop playsinline preload="metadata" poster="media/teleop-live-1-poster.jpg" data-clip aria-label="A two-finger gripper handing over a box"><source src="media/teleop-live-1.mp4" type="video/mp4"></video><span class="tc" aria-hidden="true">00:00 / 00:16</span></div>
         <figcaption>Also two-finger grippers, same pipeline.</figcaption>
       </figure>
+    </div>
+    <div class="spec">
+      <div class="spec-head">
+        <span class="eyebrow" style="color:var(--mute)">Spec your dataset</span>
+        <h3 class="spec-title">Define it the way teams like FF do.</h3>
+        <p class="spec-sub">Pick a region, an environment, and a modality. Each one books a call where we size it and quote it.</p>
+      </div>
+      <div class="spec-cols">
+        <div class="spec-col">
+          <div class="spec-k">Region</div>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">United States</a>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Latin America</a>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">India</a>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Southeast Asia</a>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Eastern Europe</a>
+        </div>
+        <div class="spec-col">
+          <div class="spec-k">Environment</div>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Warehouse &amp; 3PL</a>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Manufacturing</a>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Assembly</a>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Retail floor</a>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Household</a>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Expert trades</a>
+        </div>
+        <div class="spec-col">
+          <div class="spec-k">Modality</div>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Egocentric</a>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Stereo egocentric</a>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Exocentric</a>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Teleoperation</a>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Hand tracking</a>
+          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Depth &amp; LiDAR</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -827,5 +878,22 @@ html.cursorfx-on input,html.cursorfx-on textarea,html.cursorfx-on select{cursor:
   }
   document.addEventListener('visibilitychange',function(){stopped=document.hidden;});
   raf=requestAnimationFrame(frame);
+})();
+
+/* ---------- nav scroll highlight ---------- */
+(function(){
+  var links=[].slice.call(document.querySelectorAll('nav a.link'));
+  if(!links.length||!('IntersectionObserver' in window)) return;
+  var map={},ids=[];
+  links.forEach(function(a){var h=a.getAttribute('href')||'';if(h.charAt(0)==='#'&&h.length>1){map[h.slice(1)]=a;ids.push(h.slice(1));}});
+  var vis={};
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){vis[e.target.id]=e.isIntersecting?e.intersectionRatio:0;});
+    var best=null,br=0;
+    ids.forEach(function(id){var r=vis[id]||0;if(r>br){br=r;best=id;}});
+    links.forEach(function(a){a.classList.remove('active');});
+    if(best&&map[best])map[best].classList.add('active');
+  },{threshold:[0.12,0.3,0.55],rootMargin:'-64px 0px -42% 0px'});
+  ids.forEach(function(id){var el=document.getElementById(id);if(el)io.observe(el);});
 })();
 </script>
