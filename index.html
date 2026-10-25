@@ -343,6 +343,25 @@ footer .credit a{text-decoration:underline}
   </div>
 </section>
 
+<section class="band outcome">
+  <div class="wrap">
+    <div class="lane">
+      <div class="lane-txt">
+        <span class="eyebrow" style="color:var(--mute)">What good looks like</span>
+        <h2>This is a shelf done right.</h2>
+        <p class="body">A shopper who finds what they came for, at the price they expected, in a store set up the way you planned. That is what all this data is for.</p>
+      </div>
+      <div class="lane-media">
+        <figure class="clip">
+          <div class="frame"><span class="corner tl"></span><span class="corner br"></span>
+            <video muted loop playsinline preload="metadata" data-clip poster="media/merch-outcome-poster.jpg" aria-label="A smiling shopper with a full cart checking her phone in a store aisle"><source src="media/merch-outcome.mp4" type="video/mp4"></video><span class="tc" aria-hidden="true">00:00 / 00:19</span></div>
+          <figcaption>A good aisle, working as intended.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="wrap"><div class="saw" aria-hidden="true"></div></div>
 
 <section class="band cineL" id="robotics">
@@ -443,7 +462,7 @@ footer .credit a{text-decoration:underline}
     <p style="margin-top:4px">Merchandise data powered by DataPure.</p>
     <p style="margin-top:8px">tim@fizzion.ai</p>
   </div>
-  <p class="credit">Lifestyle footage via <a href="https://www.pexels.com" target="_blank" rel="noopener">Pexels</a>, used under the Pexels License: <a href="https://www.pexels.com/video/a-couple-buying-groceries-4121625/" target="_blank" rel="noopener">Jack Sparrow</a>, <a href="https://www.pexels.com/video/a-woman-is-shopping-in-a-supermarket-9474101/" target="_blank" rel="noopener">Greta Hoffman</a>, <a href="https://www.pexels.com/video/woman-checking-a-fruit-8446806/" target="_blank" rel="noopener">Los Muertos Crew</a>, <a href="https://www.pexels.com/video/woman-doing-a-product-shoot-7287513/" target="_blank" rel="noopener">Kampus Production</a>, and <a href="https://www.pexels.com/video/person-using-smartphone-6115068/" target="_blank" rel="noopener">cottonbro studio</a>.</p>
+  <p class="credit">Lifestyle footage via <a href="https://www.pexels.com" target="_blank" rel="noopener">Pexels</a>, used under the Pexels License: <a href="https://www.pexels.com/video/a-couple-buying-groceries-4121625/" target="_blank" rel="noopener">Jack Sparrow</a>, <a href="https://www.pexels.com/video/a-woman-is-shopping-in-a-supermarket-9474101/" target="_blank" rel="noopener">Greta Hoffman</a>, <a href="https://www.pexels.com/video/woman-checking-a-fruit-8446806/" target="_blank" rel="noopener">Los Muertos Crew</a>, <a href="https://www.pexels.com/video/woman-doing-a-product-shoot-7287513/" target="_blank" rel="noopener">Kampus Production</a>, <a href="https://www.pexels.com/video/person-using-smartphone-6115068/" target="_blank" rel="noopener">cottonbro studio</a>, and <a href="https://www.pexels.com/video/woman-with-grocery-cart-in-the-liquor-section-5100071/" target="_blank" rel="noopener">Gustavo Fring</a>.</p>
 </footer>
 
 <script>
@@ -706,6 +725,12 @@ footer .credit a{text-decoration:underline}
   if(cform){
     var cstatus=document.getElementById('c-status'), csend=document.getElementById('c-send');
     function gv(id){var e=document.getElementById(id);return (e&&e.value||'').trim();}
+    function mailtoFallback(p){
+      var subj='Inquiry from '+(p.name||p.email)+(p.company?' ('+p.company+')':'');
+      var body='Name: '+p.name+'\nEmail: '+p.email+'\nCompany: '+p.company+'\nAbout: '+(p.kind||'')+'\n\n'+p.problem;
+      window.location.href='mailto:tim@fizzion.ai?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+      cform.reset();cstatus.className='status ok';cstatus.textContent='Opening your email to send this to Tim. Just hit send.';
+    }
     cform.addEventListener('submit',function(e){
       e.preventDefault();
       var payload={name:gv('c-name'),email:gv('c-email'),company:gv('c-company'),kind:gv('c-kind'),problem:gv('c-problem'),company_hp:gv('c-hp')};
@@ -716,9 +741,9 @@ footer .credit a{text-decoration:underline}
         .then(function(r){return r.json().catch(function(){return {ok:r.ok};});})
         .then(function(d){
           if(d&&d.ok){cform.reset();cstatus.className='status ok';cstatus.textContent='Got it. Tim will get back to you.';}
-          else{cstatus.className='status err';cstatus.textContent='That did not send. Email tim@fizzion.ai directly, or book a call.';}
+          else{mailtoFallback(payload);}
         })
-        .catch(function(){cstatus.className='status err';cstatus.textContent='Could not send just now. Email tim@fizzion.ai directly, or book a call.';})
+        .catch(function(){mailtoFallback(payload);})
         .finally(function(){csend.disabled=false;csend.textContent=label;});
     });
   }
