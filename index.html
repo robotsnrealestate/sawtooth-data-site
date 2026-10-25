@@ -269,8 +269,11 @@ footer .credit a{text-decoration:underline}
 .fr-txt h2{max-width:15ch}
 @media (max-width:760px){.fieldrow,.fieldrow.rev{grid-template-columns:1fr;gap:18px}.fieldrow.rev .fr-media{order:0;justify-self:start}.fr-media{max-width:300px}}
 @media (prefers-reduced-motion:no-preference){
-  .fieldrow.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
-  .fieldrow.reveal.in{opacity:1;transform:none}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .75s cubic-bezier(.2,.65,.25,1),transform .75s cubic-bezier(.2,.65,.25,1);will-change:opacity,transform}
+  .reveal.in{opacity:1;transform:none;will-change:auto}
+  .reveal[data-rd="1"]{transition-delay:.08s}
+  .reveal[data-rd="2"]{transition-delay:.16s}
+  .reveal[data-rd="3"]{transition-delay:.24s}
 }
 .svid{margin:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--scr);line-height:0}
 .svid video{width:100%;aspect-ratio:9/16;object-fit:cover;display:block}
@@ -415,7 +418,7 @@ html.cursorfx-on input,html.cursorfx-on textarea,html.cursorfx-on select{cursor:
           <span class="mark"><img src="media/fizzion-logo.webp" alt="Fizzion AI"></span>
         </span>
       </div>
-      <h2>Get your robot the reps it needs.</h2>
+      <h2>Access New Environments, at Scale.</h2>
       <p class="lede">Physical Data Intelligence to train your AI models.</p>
     </div>
     <div class="samples">
@@ -451,10 +454,10 @@ html.cursorfx-on input,html.cursorfx-on textarea,html.cursorfx-on select{cursor:
   <div class="wrap">
     <h2>How a project runs</h2>
     <ol class="steps">
-      <li><h3>You send the spec</h3><p class="mute">Task, place, hours, device, format. A sentence starts it. You get a plan and a quote back.</p></li>
-      <li><h3>We run a pilot</h3><p class="mute">A small batch first, so you check it against your own rules before anything scales.</p></li>
-      <li><h3>We collect</h3><p class="mute">People on the ground capture it. The annotation team labels it.</p></li>
-      <li><h3>You get the data</h3><p class="mute">In the format your pipeline reads, or as a store report your team can act on.</p></li>
+      <li><h3>You send the spec</h3></li>
+      <li><h3>We run a pilot</h3></li>
+      <li><h3>We collect</h3></li>
+      <li><h3>You get the data</h3></li>
     </ol>
   </div>
 </section>
@@ -884,15 +887,43 @@ html.cursorfx-on input,html.cursorfx-on textarea,html.cursorfx-on select{cursor:
   ids.forEach(function(id){var el=document.getElementById(id);if(el)io.observe(el);});
 })();
 
-/* ---------- field rows reveal on scroll ---------- */
+/* ---------- fade-up reveal on scroll ---------- */
 (function(){
-  var rows=[].slice.call(document.querySelectorAll('.fieldrow'));
-  if(!rows.length||!('IntersectionObserver' in window)) return;
+  if(!('IntersectionObserver' in window)) return;
   var reduce=false; try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
   if(reduce) return;
-  rows.forEach(function(r){r.classList.add('reveal');});
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.18});
-  rows.forEach(function(r){io.observe(r);});
+  // each entry: a selector for a group whose members reveal together, staggered in DOM order
+  var groups=[
+    '.band.shoppers .fieldrow',
+    '#merchandise .lane',
+    '.band.outcome .lane',
+    '#robotics .feature-txt',
+    '#robotics .samples .clip',
+    '#robotics .spec',
+    '#process h2',
+    '#process .steps li',
+    '#contact h2, #contact .lede',
+    '#contact .cform',
+    'footer > div',
+    'footer .credit'
+  ];
+  var vh=window.innerHeight||document.documentElement.clientHeight;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:0.15,rootMargin:'0px 0px -8% 0px'});
+  groups.forEach(function(sel){
+    var els=[].slice.call(document.querySelectorAll(sel));
+    var i=0;
+    els.forEach(function(el){
+      // leave anything already on screen at load fully visible (no flash)
+      var r=el.getBoundingClientRect();
+      if(r.top < vh*0.9){ return; }
+      el.classList.add('reveal');
+      var rd=(i%3)+1; if(els.length>1){ el.setAttribute('data-rd',String(rd)); }
+      i++;
+      io.observe(el);
+    });
+  });
 })();
 
 /* ---------- dataset spec wizard ---------- */
