@@ -228,6 +228,12 @@ footer{border-top:1px solid var(--line);padding-block:30px 40px;display:flex;gap
 footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:var(--ink);font-size:16px;max-width:30ch}
 footer .credit{flex-basis:100%;font-size:12.5px;color:var(--mute);margin-top:8px;padding-top:14px;border-top:1px solid var(--line)}
 footer .credit a{text-decoration:underline}
+.shoppers .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(26px,4vw,56px);align-items:center}
+@media (max-width:860px){.shoppers .wrap{grid-template-columns:1fr}}
+.shoptxt{display:flex;flex-direction:column;gap:14px}
+.shopvids{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.svid{margin:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--scr);line-height:0}
+.svid video{width:100%;aspect-ratio:9/16;object-fit:cover;display:block}
 
 /* contact form */
 .cform{display:flex;flex-direction:column;gap:15px;max-width:640px;margin-top:clamp(22px,3vw,34px)}
@@ -271,6 +277,20 @@ footer .credit a{text-decoration:underline}
         <a class="btn" href="#contact">Tell us what you need</a>
         <a class="btn ghost" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call</a>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="band shoppers">
+  <div class="wrap">
+    <div class="shoptxt">
+      <span class="eyebrow">The shopper's side</span>
+      <h2>Someone is always standing at your shelf.</h2>
+      <p class="lede">They decide in seconds. We capture what they see in the aisle, so your shelf is ready before they get there.</p>
+    </div>
+    <div class="shopvids">
+      <figure class="svid"><video muted loop playsinline preload="metadata" data-clip poster="media/shopper-1-poster.jpg" aria-label="A shopper choosing fruit at a produce market"><source src="media/shopper-1.mp4" type="video/mp4"></video></figure>
+      <figure class="svid"><video muted loop playsinline preload="metadata" data-clip poster="media/shopper-2-poster.jpg" aria-label="A shopper browsing produce at a market"><source src="media/shopper-2.mp4" type="video/mp4"></video></figure>
     </div>
   </div>
 </section>
@@ -415,7 +435,7 @@ footer .credit a{text-decoration:underline}
     <p style="margin-top:4px">Merchandise data powered by DataPure.</p>
     <p style="margin-top:8px">tim@fizzion.ai</p>
   </div>
-  <p class="credit">Hero footage by <a href="https://www.pexels.com/video/a-couple-buying-groceries-4121625/" target="_blank" rel="noopener">Jack Sparrow</a> on Pexels, used under the Pexels License.</p>
+  <p class="credit">Lifestyle footage via <a href="https://www.pexels.com" target="_blank" rel="noopener">Pexels</a>, used under the Pexels License: <a href="https://www.pexels.com/video/a-couple-buying-groceries-4121625/" target="_blank" rel="noopener">Jack Sparrow</a>, <a href="https://www.pexels.com/video/a-woman-is-shopping-in-a-supermarket-9474101/" target="_blank" rel="noopener">Greta Hoffman</a>, and <a href="https://www.pexels.com/video/woman-checking-a-fruit-8446806/" target="_blank" rel="noopener">Los Muertos Crew</a>.</p>
 </footer>
 
 <script>
