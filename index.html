@@ -234,6 +234,23 @@ form.bf{display:flex;flex-direction:column;gap:15px;min-width:0}
 .spec-opt::after{content:"\2192";color:var(--accent);opacity:.55;transition:transform .15s,opacity .15s}
 .spec-opt:hover{background:rgba(255,106,44,.16);border-color:var(--accent);transform:translateX(2px)}
 .spec-opt:hover::after{opacity:1;transform:translateX(3px)}
+button.spec-opt{cursor:pointer;font:inherit;width:100%;text-align:left}
+.cineL .btn.ghost{color:#F3F7F9;border-color:#F3F7F9}
+.wiz-track{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:clamp(18px,2.5vw,26px)}
+.wiz-chip{flex:1;min-width:150px;display:flex;flex-direction:column;gap:2px;text-align:left;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.16);border-radius:3px;padding:9px 13px;color:#E9EFF3;cursor:pointer;font:inherit;transition:border-color .15s}
+.wiz-chip .wk{font-family:var(--data);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8FA3B0}
+.wiz-chip .wv{font-family:var(--display);font-weight:600;font-stretch:105%;font-size:15px;color:#F3F7F9}
+.wiz-chip.cur{border-color:var(--accent)}
+.wiz-chip.done{border-color:rgba(47,201,184,.55)}
+.wiz-steplabel{font-family:var(--data);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#8FA3B0;margin-bottom:12px}
+.wiz-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 14px}
+@media (max-width:760px){.wiz-opts{grid-template-columns:1fr 1fr}.wiz-chip{min-width:0}}
+@media (max-width:480px){.wiz-opts{grid-template-columns:1fr}}
+.wiz-foot{margin-top:clamp(18px,2.5vw,26px)}
+.wiz-summary{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.wiz-summary .sum{color:#C7D4DC;font-size:15px}
+.wiz-summary .sum b{color:#F3F7F9;font-weight:600}
+.wiz-note{font-size:12.5px;color:#8FA3B0;margin-top:12px;max-width:60ch}
 /* active nav (scroll highlight) */
 nav a.link{position:relative}
 nav a.link.active{color:var(--ink)}
@@ -418,36 +435,12 @@ html.cursorfx-on input,html.cursorfx-on textarea,html.cursorfx-on select{cursor:
       <div class="spec-head">
         <span class="eyebrow" style="color:var(--mute)">Spec your dataset</span>
         <h3 class="spec-title">Define exactly the data you need.</h3>
-        <p class="spec-sub">Pick a region, an environment, and a modality. Each one books a call where we size it and quote it.</p>
+        <p class="spec-sub">Walk through three picks, then book. We bring your spec to the call.</p>
       </div>
-      <div class="spec-cols">
-        <div class="spec-col">
-          <div class="spec-k">Region</div>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">United States</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Latin America</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">India</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Southeast Asia</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Eastern Europe</a>
-        </div>
-        <div class="spec-col">
-          <div class="spec-k">Environment</div>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Warehouse &amp; 3PL</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Manufacturing</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Assembly</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Retail floor</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Household</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Expert trades</a>
-        </div>
-        <div class="spec-col">
-          <div class="spec-k">Modality</div>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Egocentric</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Stereo egocentric</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Exocentric</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Teleoperation</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Hand tracking</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Depth &amp; LiDAR</a>
-          <a class="spec-opt" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Tactile</a>
-        </div>
+      <div class="wiz" id="wiz" data-book="https://calendar.app.google/zB7JR27BAHCGCyZN9">
+        <div class="wiz-track" id="wizTrack"></div>
+        <div class="wiz-panel" id="wizPanel"></div>
+        <div class="wiz-foot" id="wizFoot"></div>
       </div>
     </div>
   </div>
@@ -901,5 +894,66 @@ html.cursorfx-on input,html.cursorfx-on textarea,html.cursorfx-on select{cursor:
   rows.forEach(function(r){r.classList.add('reveal');});
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.18});
   rows.forEach(function(r){io.observe(r);});
+})();
+
+/* ---------- dataset spec wizard ---------- */
+(function(){
+  var wiz=document.getElementById('wiz'); if(!wiz) return;
+  var track=document.getElementById('wizTrack'),panel=document.getElementById('wizPanel'),foot=document.getElementById('wizFoot');
+  if(!track||!panel||!foot) return;
+  var book=wiz.getAttribute('data-book')||'#';
+  var steps=[
+    {k:'Region',opts:['United States','Latin America','Western Europe','Eastern Europe','India','Southeast Asia','Open / Still deciding']},
+    {k:'Environment',opts:['Warehouse & 3PL','Manufacturing','Assembly','Retail floor','Household','Expert trades','Open / Still deciding']},
+    {k:'Modality',opts:['Egocentric','Stereo egocentric','Exocentric','Teleoperation','Hand tracking','Depth & LiDAR','Tactile','Open / Still deciding']}
+  ];
+  var sel=[null,null,null],cur=0;
+  function done(){return sel[0]&&sel[1]&&sel[2];}
+  function renderTrack(){
+    track.innerHTML='';
+    steps.forEach(function(s,i){
+      var b=document.createElement('button');b.type='button';
+      b.className='wiz-chip'+(i===cur&&!done()?' cur':'')+(sel[i]?' done':'');
+      b.innerHTML='<span class="wk">'+s.k+'</span><span class="wv"></span>';
+      b.querySelector('.wv').textContent=sel[i]||'—';
+      b.addEventListener('click',function(){cur=i;render();});
+      track.appendChild(b);
+    });
+  }
+  function renderPanel(){
+    panel.innerHTML='';
+    if(done()) return;
+    var lbl=document.createElement('div');lbl.className='wiz-steplabel';lbl.textContent='Step '+(cur+1)+' of 3 · '+steps[cur].k;
+    panel.appendChild(lbl);
+    var g=document.createElement('div');g.className='wiz-opts';
+    steps[cur].opts.forEach(function(o){
+      var btn=document.createElement('button');btn.type='button';btn.className='spec-opt';btn.textContent=o;
+      btn.addEventListener('click',function(){
+        sel[cur]=o;
+        var next=-1;for(var j=0;j<3;j++){if(!sel[j]){next=j;break;}}
+        cur=next<0?0:next; render();
+      });
+      g.appendChild(btn);
+    });
+    panel.appendChild(g);
+  }
+  function specText(){return 'Region: '+sel[0]+'  ·  Environment: '+sel[1]+'  ·  Modality: '+sel[2];}
+  function renderFoot(){
+    foot.innerHTML='';
+    if(!done()) return;
+    var wrap=document.createElement('div');wrap.className='wiz-summary';
+    var sum=document.createElement('div');sum.className='sum';
+    sum.innerHTML='Your spec: <b></b> · <b></b> · <b></b>';
+    var bs=sum.querySelectorAll('b'); bs[0].textContent=sel[0]; bs[1].textContent=sel[1]; bs[2].textContent=sel[2];
+    var a=document.createElement('a');a.className='btn';a.href=book;a.target='_blank';a.rel='noopener';a.textContent='Book a call';
+    var cp=document.createElement('button');cp.type='button';cp.className='btn ghost';cp.textContent='Copy spec';
+    cp.addEventListener('click',function(){try{navigator.clipboard.writeText(specText());cp.textContent='Copied';setTimeout(function(){cp.textContent='Copy spec';},1500);}catch(e){}});
+    wrap.appendChild(sum);wrap.appendChild(a);wrap.appendChild(cp);
+    foot.appendChild(wrap);
+    var note=document.createElement('p');note.className='wiz-note';note.textContent='Paste your spec into the booking note so we can scope it before the call.';
+    foot.appendChild(note);
+  }
+  function render(){renderTrack();renderPanel();renderFoot();}
+  render();
 })();
 </script>
