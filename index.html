@@ -212,6 +212,18 @@ form.bf{display:flex;flex-direction:column;gap:15px;min-width:0}
 .close h2{max-width:17ch;font-size:clamp(2rem,5vw,3.6rem)}
 footer{border-top:1px solid var(--line);padding-block:30px 40px;display:flex;gap:18px 40px;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;font-size:14.5px;color:var(--mute)}
 footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:var(--ink);font-size:16px;max-width:30ch}
+
+/* contact form */
+.cform{display:flex;flex-direction:column;gap:15px;max-width:640px;margin-top:clamp(22px,3vw,34px)}
+.cform label{font-weight:600;font-size:14.5px;display:block;margin-bottom:6px}
+.cform .two-in{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:560px){.cform .two-in{grid-template-columns:1fr}}
+.cform input[type=text],.cform input[type=email],.cform select,.cform textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--paper);border:1px solid var(--ink);border-radius:2px;padding:10px 12px}
+.cform textarea{resize:vertical;min-height:120px;line-height:1.5}
+.cform .status{font-size:14px;min-height:1.2em;margin-top:2px}
+.cform .status.ok{color:var(--teal)}
+.cform .status.err{color:var(--accent)}
+.cform button:disabled{opacity:.6;cursor:default}
 </style>
 
 <header class="top">
@@ -222,9 +234,9 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
     </a>
     <nav aria-label="Sections">
       <a class="link" href="#merchandise">Merchandise data</a>
-      <a class="link" href="#robotics">Teleoperation</a>
+      <a class="link" href="#robotics">Robot training data</a>
       <a class="link" href="#process">How it works</a>
-      <a class="link" href="#partners">Partners</a>
+      <a class="link" href="#contact">Contact</a>
       <a class="btn small" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call</a>
     </nav>
   </div>
@@ -237,34 +249,11 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
   <div class="wrap">
     <div class="stack">
       <span class="eyebrow">Physical Data Intelligence</span>
-      <h1>Know what's happening on your shelves.</h1>
-      <p class="lede">You get a global workforce that walks your stores and runs your robots on real tasks, then hands back data your team can act on the same week.</p>
+      <h1>Know what's really happening out there.</h1>
+      <p class="lede">Your shelves across a thousand stores, or your robot learning a new task. We put trained people on the ground, check the work, and hand your team clean data you can act on. No guessing, no black box.</p>
       <div class="cta-row">
-        <a class="btn" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call</a>
-        <a class="btn ghost" href="#merchandise">See what we capture</a>
-      </div>
-    </div>
-
-    <div class="duo">
-      <div>
-        <div class="inst" data-scene="aisle" data-ratio="1.25">
-          <span class="corner tl"></span><span class="corner br"></span>
-          <span class="tag"><i class="rec"></i>CAPTURE 01 · AISLE SCAN</span>
-          <canvas></canvas>
-        </div>
-        <div class="instlabel"><b>In-store aisle</b><span>first-person scan</span></div>
-      </div>
-      <div class="spine" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h15M13 6l6 6-6 6"/></svg>
-        <span>STRUCTURED</span>
-      </div>
-      <div>
-        <div class="inst" data-scene="shelf" data-ratio="1.25">
-          <span class="corner tl"></span><span class="corner br"></span>
-          <span class="tag"><i class="rec"></i>CAPTURE 02 · SHELF SCAN</span>
-          <canvas></canvas>
-        </div>
-        <div class="instlabel"><b>Merchandise data</b><span>planogram &amp; price</span></div>
+        <a class="btn" href="#contact">Tell us your problem</a>
+        <a class="btn ghost" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call</a>
       </div>
     </div>
   </div>
@@ -284,9 +273,8 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
         <h2>Is your shelf set up the way you paid for?</h2>
         <p class="body">You bought the end cap. You should know it is actually there. Someone walks your stores with a phone, scans the shelf, and you get back a score against the standards you set with the retailer, store by store.</p>
         <ul class="feat">
-          <li>You see your facings scored against your planogram, one by one</li>
-          <li>You see where your product sits and how close the competition is</li>
-          <li>You get photos of your prices and theirs, straight from the aisle</li>
+          <li>You see your facings scored against your planogram, store by store</li>
+          <li>You get photos of your product, your prices, and the competition, straight from the aisle</li>
           <li>You catch a launch that did not land while you can still fix it</li>
         </ul>
         <ul class="chips"><li>brands launching a product</li><li>franchise owners</li><li>grocers</li></ul>
@@ -297,16 +285,6 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
           <span class="corner tl"></span><span class="corner br"></span>
           <span class="tag"><i class="rec"></i>PLANOGRAM SCAN · LIVE</span>
           <canvas></canvas>
-        </div>
-        <div class="scorecard">
-          <ul aria-label="Example display check">
-            <li><span class="mk">&#10003;</span>Facings match the plan</li>
-            <li><span class="mk no">!</span>Product present on the end cap</li>
-            <li><span class="mk">&#10003;</span>Signage is up</li>
-            <li><span class="mk no">!</span>Shelf price matches the file</li>
-            <li><span class="mk">&#10003;</span>Not next to a competitor</li>
-          </ul>
-          <div class="foot"><strong>5 of 7 standards met</strong><span class="note">illustration, not customer data</span></div>
         </div>
       </div>
     </div>
@@ -332,7 +310,7 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
             <span class="mark"><img src="media/fizzion-logo.webp" alt="Fizzion AI"></span>
           </span>
         </div>
-        <h2>Robot training data</h2>
+        <h2>Get your robot the reps it needs.</h2>
         <p class="body">Your robot needs hours on real tasks before it can run them alone. You get trained operators driving it in live sites, covering whatever it cannot do yet, and every shift turns into data that moves it toward autonomy.</p>
         <ul class="feat">
           <li>Your robot runs real work from week one, on whichever brand you deploy</li>
@@ -355,34 +333,6 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
       </div>
     </div>
 
-    <div class="samples">
-      <figure class="clip wide">
-        <div class="frame"><span class="corner tl"></span><span class="corner br"></span>
-          <video muted loop playsinline preload="metadata" poster="media/egocentric-assembly-poster.jpg" data-clip aria-label="Head-mounted video of a worker assembling a transmission housing with step captions"><source src="media/egocentric-assembly.mp4" type="video/mp4"></video><span class="tc" aria-hidden="true">00:00 / 00:24</span></div>
-        <figcaption>Egocentric assembly. Step captions are part of the data.</figcaption>
-      </figure>
-      <figure class="clip">
-        <div class="frame"><span class="corner tl"></span><span class="corner br"></span>
-          <video muted loop playsinline preload="metadata" poster="media/hand-tracking-poster.jpg" data-clip aria-label="Laundry task with 2D hand overlay and a 3D plot of both hands"><source src="media/hand-tracking.mp4" type="video/mp4"></video><span class="tc" aria-hidden="true">00:00 / 00:24</span></div>
-        <figcaption>Hand tracking. 2D overlay plus the same hands in 3D.</figcaption>
-      </figure>
-      <figure class="clip">
-        <div class="frame"><span class="corner tl"></span><span class="corner br"></span>
-          <video muted loop playsinline preload="metadata" poster="media/depth-hand-tracking-poster.jpg" data-clip aria-label="First-person video with a LiDAR depth heat map and labeled hand distances"><source src="media/depth-hand-tracking.mp4" type="video/mp4"></video><span class="tc" aria-hidden="true">00:00 / 00:20</span></div>
-        <figcaption>LiDAR depth, distance labeled per hand.</figcaption>
-      </figure>
-      <figure class="clip">
-        <div class="frame"><span class="corner tl"></span><span class="corner br"></span>
-          <video muted loop playsinline preload="metadata" poster="media/teleop-bin-picking-poster.jpg" data-clip aria-label="Three camera views of a robot arm picking mixed retail items from a bin"><source src="media/teleop-bin-picking.mp4" type="video/mp4"></video><span class="tc" aria-hidden="true">00:00 / 00:24</span></div>
-        <figcaption>Teleoperation, arm. Three views, task prompt, success score.</figcaption>
-      </figure>
-    </div>
-    <div class="more">
-      <div><h3>Stereo egocentric</h3><p class="mute">Two cameras, so depth is something you compute. Samples with metadata on request.</p></div>
-      <div><h3>Full view</h3><p class="mute">Wider capture of a space or task, for models that need the whole scene.</p></div>
-      <div><h3>Expert labor</h3><p class="mute">Skilled trades on camera, welding and machining, when generic demonstrations will not do.</p></div>
-    </div>
-    <div class="cta-row" style="margin-top:28px"><a class="btn ghost" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Ask for a sample</a></div>
   </div>
 </section>
 
@@ -402,59 +352,34 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
 
 <div class="wrap"><div class="saw" aria-hidden="true"></div></div>
 
-<section class="band alt" id="partners">
+<section class="band alt" id="contact">
   <div class="wrap">
-    <h2>Know someone who needs data?</h2>
-    <p class="lede" style="margin-top:14px">Send them here, or send us the brief. You make the intro, we run the conversation and the collection.</p>
-    <div class="brief">
-      <form class="bf" id="bf" autocomplete="off" onsubmit="return false">
-        <div><label for="f-task">What should be captured?</label>
-          <textarea id="f-task" rows="3" placeholder="Example: people folding laundry at home, first person, two hands visible"></textarea></div>
-        <fieldset><legend>Data type</legend>
-          <div class="opts" id="f-types">
-            <label><input type="checkbox" value="Egocentric"> Egocentric</label>
-            <label><input type="checkbox" value="Stereo egocentric"> Stereo egocentric</label>
-            <label><input type="checkbox" value="Hand tracking"> Hand tracking</label>
-            <label><input type="checkbox" value="Depth"> Depth</label>
-            <label><input type="checkbox" value="Teleoperation"> Teleoperation</label>
-            <label><input type="checkbox" value="Merchandise / shelf"> Merchandise / shelf</label>
-          </div></fieldset>
-        <fieldset><legend>Where</legend>
-          <div class="opts" id="f-where">
-            <label><input type="checkbox" value="United States"> United States</label>
-            <label><input type="checkbox" value="Latin America"> Latin America</label>
-            <label><input type="checkbox" value="India"> India</label>
-            <label><input type="checkbox" value="Other"> Other</label>
-          </div></fieldset>
-        <div class="two-in">
-          <div><label for="f-hours">Hours needed</label><input id="f-hours" type="number" min="0" inputmode="numeric" placeholder="100"></div>
-          <div><label for="f-when">Deadline</label><input id="f-when" type="text" placeholder="End of November"></div>
-        </div>
-        <div><label for="f-fmt">Delivery format</label><input id="f-fmt" type="text" placeholder="HDF5, RLDS, COCO, or a store report"></div>
-        <div><label for="f-who">Who is asking</label><input id="f-who" type="text" placeholder="Name and company"></div>
-      </form>
-      <div class="out">
-        <label for="f-out" style="font-weight:600;font-size:14.5px">Your brief, ready to send</label>
-        <textarea id="f-out" readonly></textarea>
-        <div class="row-btn">
-          <button class="btn" type="button" id="copy-brief">Copy brief</button>
-          <a class="btn ghost" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call instead</a>
-        </div>
-        <p class="status" id="status" role="status"></p>
-        <p>Paste it into an email to:</p>
-        <div class="row-btn"><span class="addr" id="addr">tim@fizzion.ai</span><button class="btn small ghost" type="button" id="copy-addr">Copy address</button></div>
+    <h2>Tell us your problem.</h2>
+    <p class="lede" style="margin-top:14px">Describe what you are trying to figure out or collect. You get a reply from Tim, usually the same day.</p>
+    <form class="cform" id="cform" novalidate>
+      <div class="two-in">
+        <div><label for="c-name">Your name</label><input id="c-name" name="name" type="text" autocomplete="name"></div>
+        <div><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email" required></div>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="band close cinefull">
-  <video class="bgv" muted loop playsinline preload="metadata" data-bg poster="media/teleop-bin-picking-poster.jpg" aria-hidden="true"><source src="media/teleop-bin-picking.mp4" type="video/mp4"></video>
-  <div class="wrap stack">
-    <span class="eyebrow">For AI training labs</span>
-    <h2>When you need millions of demonstrations, not a demo.</h2>
-    <p class="lede" style="max-width:36ch">You get a global workforce that scales to the hours your model needs, across regions and tasks, delivered in your schema and checked before it reaches you.</p>
-    <div class="cta-row"><a class="btn" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call</a></div>
+      <div class="two-in">
+        <div><label for="c-company">Company</label><input id="c-company" name="company" type="text" autocomplete="organization"></div>
+        <div><label for="c-kind">What is this about?</label>
+          <select id="c-kind" name="kind">
+            <option value="">Choose one</option>
+            <option>Shelf / merchandising data</option>
+            <option>Robot training data</option>
+            <option>Not sure yet</option>
+          </select></div>
+      </div>
+      <div><label for="c-problem">What are you trying to figure out?</label>
+        <textarea id="c-problem" name="problem" rows="5" required placeholder="Example: I need to know if my new end cap is actually set up in 300 stores. Or: I need 200 hours of teleoperation data on a bimanual arm."></textarea></div>
+      <input type="text" id="c-hp" name="company_hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <div class="row-btn">
+        <button class="btn" type="submit" id="c-send">Send to Tim</button>
+        <a class="btn ghost" href="https://calendar.app.google/zB7JR27BAHCGCyZN9" target="_blank" rel="noopener">Book a call instead</a>
+      </div>
+      <p class="status" id="c-status" role="status" aria-live="polite"></p>
+    </form>
   </div>
 </section>
 </main>
@@ -726,22 +651,26 @@ footer .tag{font-family:var(--display);font-weight:700;font-stretch:112%;color:v
   }
   [].forEach.call(document.querySelectorAll('.photostrip img'),function(im){im.addEventListener('error',function(){im.style.display='none';});});
 
-  /* ---------- partner brief ---------- */
-  var types=document.getElementById('f-types'),where=document.getElementById('f-where'),out=document.getElementById('f-out'),status=document.getElementById('status');
-  function chk(b){return [].slice.call(b.querySelectorAll('input:checked')).map(function(i){return i.value;}).join(', ');}
-  function val(id){var e=document.getElementById(id);return (e&&e.value||'').trim();}
-  function build(){out.value=['Data request','',
-    'Task: '+(val('f-task')||'to be confirmed'),
-    'Data type: '+(chk(types)||'to be confirmed'),
-    'Where: '+(chk(where)||'to be confirmed'),
-    'Hours: '+(val('f-hours')||'to be confirmed'),
-    'Deadline: '+(val('f-when')||'to be confirmed'),
-    'Delivery format: '+(val('f-fmt')||'to be confirmed'),
-    'From: '+(val('f-who')||'to be confirmed')].join('\n');}
-  var bf=document.getElementById('bf'); bf.addEventListener('input',build); bf.addEventListener('change',build); build();
-  function copy(text,el,ok){function fb(){if(el&&el.select){el.focus();el.select();}status.textContent='Select and copy it with your keyboard.';}
-    try{navigator.clipboard.writeText(text).then(function(){status.textContent=ok;},fb);}catch(e){fb();}}
-  document.getElementById('copy-brief').addEventListener('click',function(){copy(out.value,out,'Brief copied.');});
-  document.getElementById('copy-addr').addEventListener('click',function(){var a=document.getElementById('addr');copy(a.textContent,a,'Address copied.');});
+  /* ---------- contact form ---------- */
+  var cform=document.getElementById('cform');
+  if(cform){
+    var cstatus=document.getElementById('c-status'), csend=document.getElementById('c-send');
+    function gv(id){var e=document.getElementById(id);return (e&&e.value||'').trim();}
+    cform.addEventListener('submit',function(e){
+      e.preventDefault();
+      var payload={name:gv('c-name'),email:gv('c-email'),company:gv('c-company'),kind:gv('c-kind'),problem:gv('c-problem'),company_hp:gv('c-hp')};
+      cstatus.className='status';
+      if(!payload.email||!payload.problem){cstatus.className='status err';cstatus.textContent='Add your email and a line about the problem so Tim can reply.';return;}
+      var label=csend.textContent; csend.disabled=true; csend.textContent='Sending...'; cstatus.textContent='';
+      fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+        .then(function(r){return r.json().catch(function(){return {ok:r.ok};});})
+        .then(function(d){
+          if(d&&d.ok){cform.reset();cstatus.className='status ok';cstatus.textContent='Got it. Tim will get back to you, usually the same day.';}
+          else{cstatus.className='status err';cstatus.textContent='That did not send. Email tim@fizzion.ai directly, or book a call.';}
+        })
+        .catch(function(){cstatus.className='status err';cstatus.textContent='Could not send just now. Email tim@fizzion.ai directly, or book a call.';})
+        .finally(function(){csend.disabled=false;csend.textContent=label;});
+    });
+  }
 })();
 </script>
