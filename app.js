@@ -460,19 +460,27 @@
     panel.appendChild(g);
   }
   function specText(){return 'Region: '+sel[0]+'  ·  Environment: '+sel[1]+'  ·  Modality: '+sel[2];}
+  function mailtoUrl(){
+    var subj='Dataset spec: '+sel[0]+' / '+sel[1]+' / '+sel[2];
+    var body='My dataset spec for a Fizzion collection:\n\n'+specText()+'\n\n(Sent from the spec builder on physicaldataintelligence / sawtoothindustries.dev. Booking a call as well.)';
+    return 'mailto:tim@fizzion.ai?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+  }
   function renderFoot(){
     foot.innerHTML='';
     if(!done()) return;
-    var wrap=document.createElement('div');wrap.className='wiz-summary';
     var sum=document.createElement('div');sum.className='sum';
     sum.innerHTML='Your spec: <b></b> · <b></b> · <b></b>';
     var bs=sum.querySelectorAll('b'); bs[0].textContent=sel[0]; bs[1].textContent=sel[1]; bs[2].textContent=sel[2];
-    var a=document.createElement('a');a.className='btn';a.href=book;a.target='_blank';a.rel='noopener';a.textContent='Book a call';
+    foot.appendChild(sum);
+    var wrap=document.createElement('div');wrap.className='wiz-summary';
+    var em=document.createElement('button');em.type='button';em.className='btn';em.textContent='Email this spec to Tim';
+    em.addEventListener('click',function(){window.location.href=mailtoUrl();});
+    var a=document.createElement('a');a.className='btn ghost';a.href=book;a.target='_blank';a.rel='noopener';a.textContent='Book a call';
     var cp=document.createElement('button');cp.type='button';cp.className='btn ghost';cp.textContent='Copy spec';
     cp.addEventListener('click',function(){try{navigator.clipboard.writeText(specText());cp.textContent='Copied';setTimeout(function(){cp.textContent='Copy spec';},1500);}catch(e){}});
-    wrap.appendChild(sum);wrap.appendChild(a);wrap.appendChild(cp);
+    wrap.appendChild(em);wrap.appendChild(a);wrap.appendChild(cp);
     foot.appendChild(wrap);
-    var note=document.createElement('p');note.className='wiz-note';note.textContent='Paste your spec into the booking note so we can scope it before the call.';
+    var note=document.createElement('p');note.className='wiz-note';note.textContent='The booking page only asks for your name and email, so send Tim your spec here first, then grab a time and he’ll have it ready.';
     foot.appendChild(note);
   }
   function render(){renderTrack();renderPanel();renderFoot();}
