@@ -1,0 +1,7 @@
+# Always revalidate the shared code assets so deploys show immediately.
+# ETags mean unchanged files still return a cheap 304, not a full re-download.
+/app.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/styles.css
+  Cache-Control: public, max-age=0, must-revalidate
