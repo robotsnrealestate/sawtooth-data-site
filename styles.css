@@ -313,3 +313,9 @@ html.cursorfx-on input,html.cursorfx-on textarea,html.cursorfx-on select{cursor:
 .xlink .xt{display:flex;flex-direction:column;gap:6px;min-width:0}
 .xlink .xt .eyebrow{color:var(--mute)}
 .xlink h3{font-size:clamp(1.25rem,2.4vw,1.7rem);font-weight:760;font-stretch:110%;line-height:1.1;max-width:24ch}
+
+/* spec wizard send row */
+.wiz-send{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:4px}
+.wiz-email{font:inherit;font-size:16px;color:#E9EFF3;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.2);border-radius:3px;padding:10px 12px;min-width:220px;flex:1 1 220px}
+.wiz-email::placeholder{color:#8FA3B0}
+.wiz-email:focus{outline:2px solid var(--accent);outline-offset:2px}

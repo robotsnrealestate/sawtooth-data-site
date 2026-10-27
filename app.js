@@ -465,6 +465,13 @@
     var body='My dataset spec for a Fizzion collection:\n\n'+specText()+'\n\n(Sent from the spec builder on physicaldataintelligence / sawtoothindustries.dev. Booking a call as well.)';
     return 'mailto:tim@fizzion.ai?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
   }
+  function postSpec(email){
+    var payload={name:'Dataset spec ('+sel[0]+')',email:email,company:'',kind:'Robot training data',problem:specText(),company_hp:''};
+    return fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+      .then(function(r){return r.json().catch(function(){return {ok:r.ok};});})
+      .then(function(d){return !!(d&&d.ok);})
+      .catch(function(){return false;});
+  }
   function renderFoot(){
     foot.innerHTML='';
     if(!done()) return;
@@ -472,16 +479,27 @@
     sum.innerHTML='Your spec: <b></b> · <b></b> · <b></b>';
     var bs=sum.querySelectorAll('b'); bs[0].textContent=sel[0]; bs[1].textContent=sel[1]; bs[2].textContent=sel[2];
     foot.appendChild(sum);
-    var wrap=document.createElement('div');wrap.className='wiz-summary';
-    var em=document.createElement('button');em.type='button';em.className='btn';em.textContent='Email this spec to Tim';
-    em.addEventListener('click',function(){window.location.href=mailtoUrl();});
-    var a=document.createElement('a');a.className='btn ghost';a.href=book;a.target='_blank';a.rel='noopener';a.textContent='Book a call';
+    var row=document.createElement('div');row.className='wiz-send';
+    var inp=document.createElement('input');inp.type='email';inp.className='wiz-email';inp.placeholder='Your email';inp.autocomplete='email';inp.setAttribute('aria-label','Your email');
+    var go=document.createElement('button');go.type='button';go.className='btn';go.textContent='Send spec & book a call';
     var cp=document.createElement('button');cp.type='button';cp.className='btn ghost';cp.textContent='Copy spec';
     cp.addEventListener('click',function(){try{navigator.clipboard.writeText(specText());cp.textContent='Copied';setTimeout(function(){cp.textContent='Copy spec';},1500);}catch(e){}});
-    wrap.appendChild(em);wrap.appendChild(a);wrap.appendChild(cp);
-    foot.appendChild(wrap);
-    var note=document.createElement('p');note.className='wiz-note';note.textContent='The booking page only asks for your name and email, so send Tim your spec here first, then grab a time and he’ll have it ready.';
+    row.appendChild(inp);row.appendChild(go);row.appendChild(cp);
+    foot.appendChild(row);
+    var note=document.createElement('p');note.className='wiz-note';note.textContent='Send Tim your spec, then pick a time. He’ll have it ready before the call.';
     foot.appendChild(note);
+    go.addEventListener('click',function(){
+      var email=(inp.value||'').trim();
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){note.textContent='Add your email so Tim can match your spec to the booking.';inp.focus();return;}
+      try{window.open(book,'_blank','noopener');}catch(e){}
+      go.disabled=true;go.textContent='Sending…';
+      postSpec(email).then(function(ok){
+        go.disabled=false;
+        if(ok){go.textContent='Sent ✓';note.textContent='Sent to Tim, and the calendar opened in a new tab so you can pick a time.';}
+        else{go.textContent='Send spec & book a call';note.innerHTML='Could not send automatically. ';
+          var a=document.createElement('a');a.href=mailtoUrl();a.textContent='Email it to Tim instead';a.style.textDecoration='underline';note.appendChild(a);}
+      });
+    });
   }
   function render(){renderTrack();renderPanel();renderFoot();}
   render();
