@@ -390,6 +390,11 @@
     '#robotics .feature-txt',
     '#robotics .samples .clip',
     '#robotics .spec',
+    '#evaluation .feature-txt',
+    '#evaluation .scorecard',
+    '#evaluation .spec',
+    '#measure .more > div',
+    '#who .lane-txt',
     '.photostrip figure',
     '#process h2',
     '#process .steps li',
@@ -424,13 +429,15 @@
   var track=document.getElementById('wizTrack'),panel=document.getElementById('wizPanel'),foot=document.getElementById('wizFoot');
   if(!track||!panel||!foot) return;
   var book=wiz.getAttribute('data-book')||'#';
-  var steps=[
+  var label=wiz.getAttribute('data-label')||'Dataset spec',kind=wiz.getAttribute('data-kind')||'Robot training data';
+  var steps=null; try{steps=JSON.parse(wiz.getAttribute('data-steps')||'null');}catch(e){steps=null;}
+  if(!steps) steps=[
     {k:'Region',opts:['United States','Latin America','Western Europe','Eastern Europe','India','Southeast Asia','Open / Still deciding']},
     {k:'Environment',opts:['Warehouse & 3PL','Manufacturing','Assembly','Retail floor','Household','Expert trades','Open / Still deciding']},
     {k:'Modality',opts:['Egocentric','Stereo egocentric','Exocentric','Teleoperation','Hand tracking','Depth & LiDAR','Tactile','Open / Still deciding']}
   ];
-  var sel=[null,null,null],cur=0;
-  function done(){return sel[0]&&sel[1]&&sel[2];}
+  var sel=steps.map(function(){return null;}),cur=0,N=steps.length;
+  function done(){return sel.every(function(v){return !!v;});}
   function renderTrack(){
     track.innerHTML='';
     steps.forEach(function(s,i){
@@ -445,28 +452,28 @@
   function renderPanel(){
     panel.innerHTML='';
     if(done()) return;
-    var lbl=document.createElement('div');lbl.className='wiz-steplabel';lbl.textContent='Step '+(cur+1)+' of 3 · '+steps[cur].k;
+    var lbl=document.createElement('div');lbl.className='wiz-steplabel';lbl.textContent='Step '+(cur+1)+' of '+N+' · '+steps[cur].k;
     panel.appendChild(lbl);
     var g=document.createElement('div');g.className='wiz-opts';
     steps[cur].opts.forEach(function(o){
       var btn=document.createElement('button');btn.type='button';btn.className='spec-opt';btn.textContent=o;
       btn.addEventListener('click',function(){
         sel[cur]=o;
-        var next=-1;for(var j=0;j<3;j++){if(!sel[j]){next=j;break;}}
+        var next=-1;for(var j=0;j<N;j++){if(!sel[j]){next=j;break;}}
         cur=next<0?0:next; render();
       });
       g.appendChild(btn);
     });
     panel.appendChild(g);
   }
-  function specText(){return 'Region: '+sel[0]+'  ·  Environment: '+sel[1]+'  ·  Modality: '+sel[2];}
+  function specText(){return steps.map(function(s,i){return s.k+': '+sel[i];}).join('  ·  ');}
   function mailtoUrl(){
-    var subj='Dataset spec: '+sel[0]+' / '+sel[1]+' / '+sel[2];
-    var body='My dataset spec for a Fizzion collection:\n\n'+specText()+'\n\n(Sent from the spec builder on physicaldataintelligence / sawtoothindustries.dev. Booking a call as well.)';
+    var subj=label+': '+sel.join(' / ');
+    var body='My '+label.toLowerCase()+':\n\n'+specText()+'\n\n(Sent from the spec builder on physicaldataintelligence.com. Booking a call as well.)';
     return 'mailto:tim@fizzion.ai?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
   }
   function postSpec(email){
-    var payload={name:'Dataset spec ('+sel[0]+')',email:email,company:'',kind:'Robot training data',problem:specText(),company_hp:''};
+    var payload={name:label+' ('+sel[0]+')',email:email,company:'',kind:kind,problem:specText(),company_hp:''};
     return fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
       .then(function(r){return r.json().catch(function(){return {ok:r.ok};});})
       .then(function(d){return !!(d&&d.ok);})
@@ -476,8 +483,8 @@
     foot.innerHTML='';
     if(!done()) return;
     var sum=document.createElement('div');sum.className='sum';
-    sum.innerHTML='Your spec: <b></b> · <b></b> · <b></b>';
-    var bs=sum.querySelectorAll('b'); bs[0].textContent=sel[0]; bs[1].textContent=sel[1]; bs[2].textContent=sel[2];
+    sum.appendChild(document.createTextNode('Your spec: '));
+    sel.forEach(function(v,i){if(i)sum.appendChild(document.createTextNode(' · '));var b=document.createElement('b');b.textContent=v;sum.appendChild(b);});
     foot.appendChild(sum);
     var row=document.createElement('div');row.className='wiz-send';
     var inp=document.createElement('input');inp.type='email';inp.className='wiz-email';inp.placeholder='Your email';inp.autocomplete='email';inp.setAttribute('aria-label','Your email');
